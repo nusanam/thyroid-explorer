@@ -1,5 +1,5 @@
 import type { SimulationLink, SimulationNode } from '../data/types';
-import { getSimulationNodeSimulationLinks } from './styleHelpers';
+import { getSimulationNodeAndLinks } from './styleHelpers';
 
 // ==================== ACCESSIBILITY HELPERS ====================
 
@@ -10,7 +10,7 @@ export const getSimulationNodeAriaLabel = (
   SimulationNode: SimulationNode,
   SimulationLinks: SimulationLink[]
 ): string => {
-  const { incoming, outgoing } = getSimulationNodeSimulationLinks(
+  const { incoming, outgoing } = getSimulationNodeAndLinks(
     SimulationNode.id,
     SimulationLinks
   );
