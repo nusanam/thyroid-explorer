@@ -1,28 +1,20 @@
-// const nodeGroups = nodesGroup
-//   .selectAll('g')
-//   .data(nodes)
-//   .join('g')
-//   .attr('role', 'button')
-//   .attr('aria-label', (d) => `${d.label}: ${d.description}`)
-//   .attr('tabindex', 0)
-//   .on('keydown', (event, d) => {
-//     if (event.key === 'Enter' || event.key === ' ') {
-//       onNodeClick(d.id);
-//     }
-//   });
+import React from 'react';
 
-// // Add focus styles
-// svg
-//   .selectAll('.node')
-//   .on('focus', function () {
-//     d3.select(this)
-//       .select('circle')
-//       .attr('stroke', '#000')
-//       .attr('stroke-width', 3);
-//   })
-//   .on('blur', function () {
-//     d3.select(this)
-//       .select('circle')
-//       .attr('stroke', '#fff')
-//       .attr('stroke-width', 1.5);
-//   });
+/*
+
+This file contains prototype accessibility code that is not yet fully implemented.
+
+Some basic accessibility features (ARIA labels, keyboard navigation) have been implemented directly in NetworkVisualization.tsx, but advanced features are still TODO:
+
+TODO: To implement:
+  - Focus ring styling for keyboard navigation
+  - Keyboard shortcuts panel (e.g., Tab to navigate, Enter to select)
+  - Screen reader announcements for path highlighting
+  - Skip links for large visualizations
+  - High contrast mode support
+
+*/
+
+export const AccessibilityWrapper: React.FC = () => {
+  return null;
+};

@@ -1,3 +1,4 @@
+import React from 'react';
 import type { Scenario, Stats } from '../data/types';
 
 const getStatsByScenario = (scenario: Scenario): Stats => {
@@ -23,12 +24,12 @@ const getStatsByScenario = (scenario: Scenario): Stats => {
         anovulationRate: '40-60%',
         lutealPhaseLength: '<8 days',
       };
-    case 'default':
+    default:
       return {
-        timeToConception: '',
-        miscarriageRisk: '',
-        anovulationRate: '',
-        lutealPhaseLength: '',
+        timeToConception: 'N/A',
+        miscarriageRisk: 'N/A',
+        anovulationRate: 'N/A',
+        lutealPhaseLength: 'N/A',
       };
   }
 };
