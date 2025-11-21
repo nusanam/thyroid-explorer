@@ -47,23 +47,22 @@ Created as a portfolio project to demonstrate the intersection of data visualiza
 ### Component Structure
 
 src/
-  components/
-    ThyroidExplorer.tsx         // Main container
-    NetworkVisualization.tsx    // The D3 graph
-    NodeDetail.tsx              // Click to see detail panel
-    LinkHighlight.tsx           // Hover to highlight pathway
-    SeveritySlider.tsx          // Show subclinical → overt progression
-    CategoryLegend.tsx          // Color key
-    ComparisonToggle.tsx        // Hashimoto's vs non-autoimmune
-    ResearchCitations.tsx       // Expandable references
-  data/
-    nodes.ts                    // Node definitions
-    links.ts                    // link definitions
-    scenarios.ts                // Pre-defined severity scenarios
-  utils/
-    layoutCalculator.ts         // Position nodes
-    pathfinder.ts               // Find paths between nodes
-
+components/
+ThyroidExplorer.tsx // Main container
+NetworkVisualization.tsx // The D3 graph
+NodeDetail.tsx // Click to see detail panel
+LinkHighlight.tsx // Hover to highlight pathway
+SeveritySlider.tsx // Show subclinical → overt progression
+CategoryLegend.tsx // Color key
+ComparisonToggle.tsx // Hashimoto's vs non-autoimmune
+ResearchCitations.tsx // Expandable references
+data/
+nodes.ts // Node definitions
+links.ts // link definitions
+scenarios.ts // Pre-defined severity scenarios
+utils/
+layoutCalculator.ts // Position nodes
+pathfinder.ts // Find paths between nodes
 
 # React + TypeScript + Vite
 
@@ -109,11 +108,10 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
 
 ```js
 // eslint.config.js
