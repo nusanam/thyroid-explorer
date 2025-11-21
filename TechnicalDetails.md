@@ -47,4 +47,4 @@ This visualization helps people understand:
 
 ## What's Next
 
-In the future I might add more conditions (PCOS, endometriosis) to make this a more comprehensive reproductive health explorer.
+Since hypothyroidism is a very important topic for me, I haven't given as much weight to hyperthyroidism as I should, so it'll be the next condition to add. In the future I might add more conditions (PCOS, endometriosis) to make this a more comprehensive reproductive health explorer. 
