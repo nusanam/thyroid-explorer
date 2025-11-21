@@ -24,3 +24,18 @@ export interface SimulationNode extends SimulationNodeDatum {
     howToOptimize?: string;
   };
 }
+
+export interface Scenario {
+  id: string;
+  name: string;
+  description: string;
+  thyroidValues: {
+    tsh: number;
+    freeT3: number;
+    freeT4: number;
+    tpoAntibodies: number;
+    tgAntibodies: number;
+  };
+  reproductiveImpacts: string[];
+  clinicalNotes: string;
+}
