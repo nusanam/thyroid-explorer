@@ -1,11 +1,16 @@
 import * as d3 from 'd3';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { SimulationLink, SimulationNode } from '../data/types';
 import { getSimulationNodeAriaLabel } from '../utils/accessibility';
 import { getEntranceDelay } from '../utils/animation';
 import { getNodeId } from '../utils/helpers';
 import { calculateLayout, createCurvedPath } from '../utils/layout';
-import { findPathsFromSimulationNode } from '../utils/pathfinder';
+import {
+  clearPathHighlight,
+  findPathsFromSimulationNode,
+  highlightConnectedElements,
+  highlightPathsFromNode,
+} from '../utils/pathfinder';
 import {
   getSimulationLinkColor,
   getSimulationLinkOpacity,
@@ -15,7 +20,12 @@ import {
   getSimulationNodeOpacity,
   getSimulationNodeRadius,
 } from '../utils/styling';
-import { hideLinkTooltip, showLinkTooltip } from '../utils/tooltip';
+import {
+  hideLinkTooltip,
+  showLinkTooltip,
+  showNodeTooltip,
+  updateTooltipPosition,
+} from '../utils/tooltip';
 interface Props {
   nodes: SimulationNode[];
   links: SimulationLink[];
@@ -46,7 +56,18 @@ export const NetworkVisualization: React.FC<Props> = ({
   // scenarios,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
+
+  // State for path highlighting
+  const [activePathMode, setActivePathMode] = useState<
+    'downstream' | 'upstream' | 'both'
+  >('both');
+  const [highlightedNodes, setHighlightedNodes] = useState<Set<string>>(
+    new Set()
+  );
+  const [highlightedLinks, setHighlightedLinks] = useState<Set<string>>(
+    new Set()
+  );
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -67,6 +88,7 @@ export const NetworkVisualization: React.FC<Props> = ({
       .selectAll('path')
       .data(links)
       .join('path')
+      .attr('id', (_, i) => `link-${i}`) // Add ID for path highlighting
       .attr('d', (d) => {
         const sourceId = getNodeId(d.source);
         const targetId = getNodeId(d.target);
@@ -76,14 +98,20 @@ export const NetworkVisualization: React.FC<Props> = ({
         return createCurvedPath(source, target); // Using helper
       })
       .attr('stroke', (d) => getSimulationLinkColor(d.type)) // Using helper
-      .attr('stroke-width', (d) => getSimulationLinkWidth(d.strength, severity)) // Using helper with severity
+      .attr('stroke-width', (d, i) => {
+        const linkId = `link-${i}`;
+        if (highlightedLinks.size > 0) {
+          return highlightedLinks.has(linkId) ? 0.9 : 0.1;
+        }
+        return getSimulationLinkOpacity(d, highlightedPath, hoveredNode);
+      }) // Using helper with severity
       .attr('fill', 'none')
       .attr('opacity', (d) =>
         getSimulationLinkOpacity(d, highlightedPath, hoveredNode)
       ) // Using helper
       .attr('class', 'connection transition-all duration-300')
       .style('cursor', 'pointer')
-      .on('mouseenter', function (_event, d) {
+      .on('mouseenter', function (event, d) {
         d3.select(this)
           .attr('opacity', 0.9)
           .attr(
@@ -92,17 +120,30 @@ export const NetworkVisualization: React.FC<Props> = ({
           );
 
         // Show tooltip (implement separately)
-        showLinkTooltip(_event, d);
+        showLinkTooltip(event, d, tooltipRef, nodes);
       })
       .on('mouseleave', function (_event, d) {
         d3.select(this)
-          .attr(
-            'opacity',
-            getSimulationLinkOpacity(d, highlightedPath, hoveredNode)
-          )
-          .attr('stroke-width', getSimulationLinkWidth(d.strength, severity));
+          .attr('opacity', (_, i) => {
+            const linkId = `link-${i}`;
+            if (highlightedLinks.size > 0) {
+              return highlightedLinks.has(linkId) ? 0.9 : 0.1;
+            }
+            return getSimulationLinkOpacity(d, highlightedPath, hoveredNode);
+          })
+          .attr('stroke-width', (_, i) => {
+            const linkId = `link-${i}`;
+            const isHighlighted = highlightedLinks.has(linkId);
+            return (
+              getSimulationLinkWidth(d.strength, severity) +
+              (isHighlighted ? 3 : 0)
+            );
+          });
 
-        hideLinkTooltip();
+        hideLinkTooltip(tooltipRef);
+      })
+      .on('mousemove', function (event) {
+        updateTooltipPosition(event, tooltipRef); // ADD THIS
       });
 
     // Add arrow markers for links
@@ -113,7 +154,7 @@ export const NetworkVisualization: React.FC<Props> = ({
       .join('marker')
       .attr('id', (d) => `arrow-${d}`)
       .attr('viewBox', '0 -5 10 10')
-      .attr('refX', 35) // Offset so arrow doesn't overlap node
+      .attr('refX', 35)
       .attr('refY', 0)
       .attr('markerWidth', 6)
       .attr('markerHeight', 6)
@@ -139,52 +180,74 @@ export const NetworkVisualization: React.FC<Props> = ({
       .attr('role', 'button')
       .attr('tabindex', 0)
       .attr('aria-label', (d) => getSimulationNodeAriaLabel(d, links)) // Using helper
-      .style('cursor', 'pointer')
-      .style('opacity', (d) =>
-        getSimulationNodeOpacity(d, highlightedPath, hoveredNode)
-      ) // Using helper
+      .style('opacity', (d) => {
+        if (highlightedNodes.size > 0) {
+          return highlightedNodes.has(d.id) ? 1 : 0.2;
+        }
+        return getSimulationNodeOpacity(d, highlightedPath, hoveredNode);
+      })
       .on('click', (event, d) => {
         event.stopPropagation();
         onNodeClick(d.id);
+
+        // Toggle path highlighting
+        if (selectedNode === d.id) {
+          // Clicking same node - clear highlight
+          clearPathHighlight(setHighlightedNodes, setHighlightedLinks);
+        } else {
+          // New node - highlight its paths
+          highlightPathsFromNode(
+            d.id,
+            links,
+            nodes,
+            tooltipRef,
+            setHighlightedNodes,
+            setHighlightedLinks,
+            activePathMode
+          )
+        }
       })
-      .on('mouseenter', (_event, d) => {
+      .on('mouseenter', function (event, d) {
         onNodeHover(d.id);
+        showNodeTooltip(event, d, tooltipRef);
 
-        // Highlight connected paths
-        const paths = findPathsFromSimulationNode(d.id, links); // Using helper
-
-        // Update connection opacities
-        linkPaths.attr('opacity', (conn) => {
-          const isConnected = conn.source === d.id || conn.target === d.id;
-          return isConnected ? 0.9 : 0.1;
-        });
-
-        // Update node opacities
-        nodeGroups.style('opacity', (node) => {
-          if (node.id === d.id) return 1;
-          const isConnected = links.some(
-            (c) =>
-              (c.source === d.id && c.target === node.id) ||
-              (c.target === d.id && c.source === node.id)
+        // Temporary highlight on hover (without changing selected state)
+        if (!selectedNode) {
+          const paths = findPathsFromSimulationNode(d.id, links);
+          highlightConnectedElements(
+            d.id,
+            paths,
+            setHighlightedNodes,
+            setHighlightedLinks,
+            activePathMode
           );
-          return isConnected ? 1 : 0.3;
-        });
+        }
       })
       .on('mouseleave', () => {
         onNodeHover(null);
+        hideLinkTooltip(tooltipRef);
 
-        // Reset opacities
-        linkPaths.attr('opacity', (d) =>
-          getSimulationLinkOpacity(d, highlightedPath, hoveredNode)
-        );
-        nodeGroups.style('opacity', (d) =>
-          getSimulationNodeOpacity(d, highlightedPath, hoveredNode)
-        );
+        // Clear temporary hover highlight if no node is selected
+        if (!selectedNode) {
+          clearPathHighlight(setHighlightedNodes, setHighlightedLinks);
+        }
       })
-      .on('keydown', (event, d) => {
+      .on('mousemove', function (event: MouseEvent) {
+        updateTooltipPosition(event, tooltipRef);
+      })
+      .on('keydown', (event: KeyboardEvent, d) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
           onNodeClick(d.id);
+          highlightPathsFromNode(
+            d.id,
+            links,
+            nodes,
+            tooltipRef,
+            setHighlightedNodes,
+            setHighlightedLinks,
+            activePathMode
+          );
         }
       });
 
@@ -256,6 +319,9 @@ export const NetworkVisualization: React.FC<Props> = ({
   }, [
     onNodeClick,
     onNodeHover,
+    highlightedLinks,
+    highlightedNodes,
+    activePathMode,
     nodes,
     links,
     severity,
@@ -268,13 +334,66 @@ export const NetworkVisualization: React.FC<Props> = ({
 
   return (
     <div className='relative'>
+      {/* Path Mode Controls */}
+      <div className='absolute top-4 right-4 bg-white rounded-lg shadow-lg p-3 z-10'>
+        <div className='text-xs font-semibold mb-2 text-gray-700'>
+          Path Display:
+        </div>
+        <div className='flex gap-2'>
+          <button
+            onClick={() => setActivePathMode('upstream')}
+            className={`px-3 py-1 text-xs rounded ${
+              activePathMode === 'upstream'
+                ? 'bg-orange-500 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            ← Upstream
+          </button>
+          <button
+            onClick={() => setActivePathMode('both')}
+            className={`px-3 py-1 text-xs rounded ${
+              activePathMode === 'both'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            ⇄ Both
+          </button>
+          <button
+            onClick={() => setActivePathMode('downstream')}
+            className={`px-3 py-1 text-xs rounded ${
+              activePathMode === 'downstream'
+                ? 'bg-green-500 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
+          >
+            Downstream →
+          </button>
+        </div>
+        {highlightedNodes.size > 0 && (
+          <button
+            onClick={() =>
+              clearPathHighlight(setHighlightedNodes, setHighlightedLinks)
+            }
+            className='mt-2 w-full px-3 py-1 text-xs rounded bg-red-100 text-red-700 hover:bg-red-200'
+          >
+            Clear Highlight
+          </button>
+        )}
+      </div>
+
       <svg
         ref={svgRef}
         width={width}
         height={height}
         className='thyroid-network'
         style={{ background: '#fafafa' }}
+        onClick={() =>
+          clearPathHighlight(setHighlightedNodes, setHighlightedLinks)
+        }
       />
+
       <div
         ref={tooltipRef}
         className='absolute pointer-events-none z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-4 max-w-sm'

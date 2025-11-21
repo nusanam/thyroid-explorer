@@ -2,7 +2,10 @@ import type { RefObject } from 'react';
 import type { SimulationLink, SimulationNode } from '../data/types';
 import { getSimulationLinkColor, getSimulationNodeColor } from './styling';
 
-export const updateTooltipPosition = (event: MouseEvent, tooltipRef: RefObject<HTMLDivElement>) => {
+export const updateTooltipPosition = (
+  event: MouseEvent,
+  tooltipRef: RefObject<HTMLDivElement | null>
+) => {
   if (!tooltipRef.current) return;
 
   const tooltip = tooltipRef.current;
@@ -27,7 +30,7 @@ export const updateTooltipPosition = (event: MouseEvent, tooltipRef: RefObject<H
 export const showLinkTooltip = (
   event: MouseEvent,
   link: SimulationLink,
-  tooltipRef: RefObject<HTMLDivElement>,
+  tooltipRef: RefObject<HTMLDivElement | null>,
   nodes: SimulationNode[]
 ) => {
   if (!tooltipRef.current) return;
@@ -83,7 +86,11 @@ export const showLinkTooltip = (
   }, 10);
 };
 
-export const showNodeTooltip = (event: MouseEvent, node: SimulationNode, tooltipRef: RefObject<HTMLDivElement>) => {
+export const showNodeTooltip = (
+  event: MouseEvent,
+  node: SimulationNode,
+  tooltipRef: RefObject<HTMLDivElement | null>
+) => {
   if (!tooltipRef.current) return;
 
   const tooltip = tooltipRef.current;
@@ -121,14 +128,15 @@ export const showNodeTooltip = (event: MouseEvent, node: SimulationNode, tooltip
   }, 10);
 };
 
-export const hideLinkTooltip = (tooltipRef: RefObject<HTMLDivElement>) => {
-    if (!tooltipRef.current) return;
+export const hideLinkTooltip = (
+  tooltipRef: RefObject<HTMLDivElement | null>
+) => {
+  if (!tooltipRef.current) return;
 
-    tooltipRef.current.style.opacity = '0';
-    setTimeout(() => {
-      if (tooltipRef.current) {
-        tooltipRef.current.style.display = 'none';
-      }
-    }, 200);
-
+  tooltipRef.current.style.opacity = '0';
+  setTimeout(() => {
+    if (tooltipRef.current) {
+      tooltipRef.current.style.display = 'none';
+    }
+  }, 200);
 };
