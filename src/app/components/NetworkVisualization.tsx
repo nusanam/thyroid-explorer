@@ -267,17 +267,55 @@ export const NetworkVisualization: React.FC<Props> = ({
       );
 
     // Node labels
+    // Node labels - Position based on node category
     nodeGroups
       .append('text')
-      .attr('text-anchor', 'middle')
+      .attr('text-anchor', (d) => {
+        // Right-side nodes: position label to the left of the node
+        if (d.category === 'reproductive') {
+          return 'end';
+        }
+        // Left-side nodes: position label to the right
+        if (d.category === 'thyroid') {
+          return 'start';
+        }
+        // Middle nodes: center
+        return 'middle';
+      })
+      .attr('dx', (d) => {
+        if (d.category === 'reproductive')
+          return (
+            -getSimulationNodeRadius(
+              d,
+              severity,
+              d.id === selectedNode,
+              isMobile
+            ) - 8
+          );
+        if (d.category === 'thyroid')
+          return (
+            getSimulationNodeRadius(
+              d,
+              severity,
+              d.id === selectedNode,
+              isMobile
+            ) + 8
+          );
+        return 0;
+      })
       .attr('dy', (d) => {
-        const radius = getSimulationNodeRadius(
-          d,
-          severity,
-          d.id === selectedNode,
-          isMobile
-        );
-        return radius + 25; // More space below the circle
+        // Only offset vertically for middle nodes
+        if (d.category === 'intermediate') {
+          return (
+            getSimulationNodeRadius(
+              d,
+              severity,
+              d.id === selectedNode,
+              isMobile
+            ) + 25
+          );
+        }
+        return 5; // Vertically center for left/right nodes
       })
       .attr('font-size', (d) =>
         getSimulationNodeLabelSize(d, d.id === selectedNode, isMobile)
@@ -286,22 +324,7 @@ export const NetworkVisualization: React.FC<Props> = ({
       .attr('fill', '#1f2937')
       .attr('class', 'transition-all duration-300')
       .text((d) => d.label)
-      .style('pointer-events', 'none') // don't interfere with node interactions
-      .each(function (d) {
-        // Wrap long text
-        const text = d3.select(this);
-        const words = d.label.split(/\s+/);
-        if (words.length > 2) {
-          text.text('');
-          words.forEach((word, i) => {
-            text
-              .append('tspan')
-              .attr('x', 0)
-              .attr('dy', i === 0 ? 0 : 15)
-              .text(word);
-          });
-        }
-      });
+      .style('pointer-events', 'none');
 
     // Optional: Add node value indicators for selected scenario
     if (severity !== 'normal') {

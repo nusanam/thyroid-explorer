@@ -10,17 +10,29 @@ export const updateTooltipPosition = (
 
   const tooltip = tooltipRef.current;
   const tooltipRect = tooltip.getBoundingClientRect();
-  const padding = 10;
+  const padding = 15;
 
   let left = event.pageX + padding;
   let top = event.pageY + padding;
 
-  // Keep tooltip within viewport
+  // Keep tooltip within viewport horizontally
   if (left + tooltipRect.width > window.innerWidth) {
     left = event.pageX - tooltipRect.width - padding;
   }
-  if (top + tooltipRect.height > window.innerHeight) {
+
+  // If still off-screen on left, position from right edge
+  if (left < 0) {
+    left = window.innerWidth - tooltipRect.width - padding;
+  }
+
+  // Keep tooltip within viewport vertically
+  if (top + tooltipRect.height > window.innerHeight + window.scrollY) {
     top = event.pageY - tooltipRect.height - padding;
+  }
+
+  // If still off-screen on top, position from bottom
+  if (top < window.scrollY) {
+    top = window.scrollY + padding;
   }
 
   tooltip.style.left = `${left}px`;
