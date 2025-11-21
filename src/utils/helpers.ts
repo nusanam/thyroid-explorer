@@ -1,25 +1,18 @@
-// Helper function to get connections by node
-import { connections } from '../data/connections';
+import { links } from '../data/links';
 import type { SimulationLink, SimulationNode } from '../data/types';
-
-export const getConnectionsForNode = (nodeId: string): SimulationLink[] => {
-  return connections.filter((c) => c.source === nodeId || c.target === nodeId);
-};
 
 export const getNodeId = (node: string | SimulationNode): string => {
   return typeof node === 'string' ? node : node.id;
 };
 
-// Helper function to get downstream connections
-const getDownstreamConnections = (nodeId: string): SimulationLink[] => {
-  return connections.filter((conn) => getNodeId(conn.source) === nodeId);
+// Helper function to get downstream links
+const getDownstreamLinks = (nodeId: string): SimulationLink[] => {
+  return links.filter((conn) => getNodeId(conn.source) === nodeId);
 };
 
-// Helper function to get upstream connections
-export const getUpstreamConnections = (
-  nodeId: string
-): string | SimulationLink[] => {
-  return connections.filter((c) => c.target === nodeId);
+// Helper function to get upstream links
+export const getUpstreamLinks = (nodeId: string): string | SimulationLink[] => {
+  return links.filter((c) => c.target === nodeId);
 };
 
 // Helper function to find all paths between two nodes
@@ -42,7 +35,7 @@ export const findPathsBetweenNodes = (
       return;
     }
 
-    const downstream = getDownstreamConnections(currentId);
+    const downstream = getDownstreamLinks(currentId);
     for (const conn of downstream) {
       const targetId = getNodeId(conn.target);
 
@@ -56,10 +49,10 @@ export const findPathsBetweenNodes = (
   return paths;
 };
 
-// Get all nodes involved in connections (for validation)
+// Get all nodes involved in links (for validation)
 export const getAllNodeIds = (): Set<string | SimulationNode> => {
   const nodeIds = new Set<string | SimulationNode>();
-  connections.forEach((conn) => {
+  links.forEach((conn) => {
     nodeIds.add(conn.source);
     nodeIds.add(conn.target);
   });

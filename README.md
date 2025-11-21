@@ -1,18 +1,19 @@
 ### Component Structure
-```
+
+````
 src/
   components/
     ThyroidExplorer.tsx          // Main container
     NetworkVisualization.tsx      // The D3 graph
     NodeDetail.tsx               // Click to see detail panel
-    ConnectionHighlight.tsx      // Hover to highlight pathway
+    linkHighlight.tsx      // Hover to highlight pathway
     SeveritySlider.tsx          // Show subclinical → overt progression
     CategoryLegend.tsx          // Color key
     ComparisonToggle.tsx        // Hashimoto's vs non-autoimmune
     ResearchCitations.tsx       // Expandable references
   data/
     nodes.ts                    // Node definitions
-    connections.ts              // Connection definitions
+    links.ts              // link definitions
     scenarios.ts               // Pre-defined severity scenarios
   utils/
     layoutCalculator.ts        // Position nodes
@@ -64,14 +65,14 @@ export default defineConfig([
     },
   },
 ])
-```
+````
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -92,5 +93,5 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```

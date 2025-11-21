@@ -1,5 +1,6 @@
 import type { SimulationLink, SimulationNode } from '../data/types';
-import { getNodeId } from './helperFunctions';
+import { getNodeId } from './helpers';
+
 // ==================== DATA VALIDATION HELPERS ====================
 
 /**

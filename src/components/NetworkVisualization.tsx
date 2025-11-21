@@ -7,10 +7,10 @@ import {
   forceSimulation,
 } from 'd3-force';
 import { select } from 'd3-selection';
-import { connections } from '../data/connections';
+import { links } from '../data/links';
 import { nodes } from '../data/nodes';
 import type { SimulationLink, SimulationNode } from '../data/types';
-import * as helper from '../utils/styleHelpers';
+import * as helper from '../utils/stylers';
 
 // Option 1: Get dimensions from a container element
 const container = document.getElementById('graph-container'); // or however you're selecting it
@@ -27,7 +27,7 @@ const svg = select<SVGSVGElement, unknown>('#graph-container')
 const simulation = forceSimulation(nodes)
   .force(
     'link',
-    forceLink<SimulationNode, SimulationLink>(connections)
+    forceLink<SimulationNode, SimulationLink>(links)
       .id((d: SimulationNode) => d.id)
       .distance((d: SimulationLink) => (d.strength === 'strong' ? 150 : 200))
   )
@@ -64,7 +64,7 @@ const drag = (simulation: any) => {
 const link = svg
   .append('g')
   .selectAll('line')
-  .data(connections)
+  .data(links)
   .join('line')
   .attr('stroke', (d: SimulationLink) => helper.getSimulationLinkColor(d.type))
   .attr('stroke-width', (d: SimulationLink) =>

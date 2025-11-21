@@ -1,5 +1,5 @@
 import type { SimulationLink, SimulationNode } from '../data/types';
-import { getSimulationNodeAndLinks } from './styleHelpers';
+import { getSimulationNodeAndLinks } from './pathfinder';
 
 // ==================== ACCESSIBILITY HELPERS ====================
 

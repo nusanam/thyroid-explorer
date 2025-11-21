@@ -1,6 +1,6 @@
 import type { SimulationLink } from './types';
 
-export const connections: SimulationLink[] = [
+export const links: SimulationLink[] = [
   // ============================================
   // TSH CONNECTIONS
   // ============================================

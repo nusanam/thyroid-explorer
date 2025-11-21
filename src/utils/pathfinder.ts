@@ -1,5 +1,5 @@
 import type { SimulationLink } from '../data/types';
-import { getNodeId } from './helperFunctions';
+import { getNodeId } from './helpers';
 
 // ==================== PATH HELPERS ====================
 
@@ -22,7 +22,7 @@ export const isSimulationLinkInPath = (
 };
 
 /**
- * Find all paths source a given SimulationNode using BFS
+ * Find all paths from a given SimulationNode using BFS
  */
 export const findPathsFromSimulationNode = (
   SimulationNodeId: string,
