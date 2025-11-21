@@ -1,8 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import type { SimulationLink, SimulationNode } from '../data/types';
+import type { SimulationNode } from '../data/types';
 interface Props {
   node: SimulationNode;
-  links: SimulationLink;
   onClose: () => void;
 }
 

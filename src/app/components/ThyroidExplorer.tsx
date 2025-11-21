@@ -201,7 +201,6 @@ export const ThyroidExplorer: React.FC = () => {
       {selectedNodeData && (
         <NodeDetail
           node={selectedNodeData}
-          links={links ? links : null}
           onClose={() => setSelectedNode(null)}
         />
       )}
