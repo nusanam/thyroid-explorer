@@ -69,12 +69,12 @@ export const ThyroidExplorer: React.FC = () => {
   return (
     <div className='min-h-screen'>
       {/* Compact Header */}
-      <header className='border-b border-gray-200 shadow-sm'>
+      <header className='shadow-sm'>
         <div className='max-w-[1800px] mx-auto px-6 py-4'>
           <h1 className='text-3xl font-bold text-[#6298a0cc] mb-1'>
             Thyroid-Reproductive Health Connection
           </h1>
-          <p className='text-sm text-gray-600'>
+          <p className='text-sm text-[#8e9047]'>
             Click nodes for details • Hover to highlight pathways
           </p>
         </div>
@@ -98,7 +98,7 @@ export const ThyroidExplorer: React.FC = () => {
                   );
                   if (scenario) handleScenarioSelect(scenario);
                 }}
-                className='w-full p-1 border-2 border-gray-300 rounded-lg text-[#6298a0cc] text-sm focus:border-[#6298a0cc] focus:outline-none'
+                className='w-full p-1 border-2 border-gray-300 rounded-lg text-[#8e9047] text-sm focus:border-[#6298a0cc] focus:outline-none'
               >
                 <option value=''>Select a scenario...</option>
                 {scenarios.map((scenario) => (
@@ -109,8 +109,8 @@ export const ThyroidExplorer: React.FC = () => {
               </select>
 
               {currentScenario && (
-                <div className='mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg'>
-                  <p className='text-xs text-blue-800 leading-relaxed'>
+                <div className='mt-3 p-3 bg-[#dcf0f0cc] border border-blue-200 rounded-lg'>
+                  <p className='text-xs text-[#44676ccc] leading-relaxed'>
                     {currentScenario.description}
                   </p>
                 </div>
@@ -150,50 +150,50 @@ export const ThyroidExplorer: React.FC = () => {
 
                 {/* Compact Lab Values */}
                 <div className='grid grid-cols-5 gap-2 mb-2'>
-                  <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
+                  <div className='p-2 bg-[#dcf0f0cc]  rounded border border-blue-100'>
+                    <div className='text-[14px] text-[#43a5a1] font-semibold mb-1'>
                       TSH
                     </div>
-                    <div className='text-lg font-bold text-blue-900'>
+                    <div className='text-lg font-bold text-[#268e8b]'>
                       {currentScenario.thyroidValues.tsh}
                     </div>
-                    <div className='text-[11px] text-blue-600'>mIU/L</div>
+                    <div className='text-[11px] text-[#388c89]'>mIU/L</div>
                   </div>
-                  <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
+                  <div className='p-2 bg-[#dcf0f0cc]  rounded border border-blue-100'>
+                    <div className='text-[14px] text-[#43a5a1] font-semibold mb-1'>
                       Free T3
                     </div>
-                    <div className='text-lg font-bold text-blue-900'>
+                    <div className='text-lg font-bold text-[#268e8b]'>
                       {currentScenario.thyroidValues.freeT3}
                     </div>
-                    <div className='text-[11px] text-blue-600'>pg/mL</div>
+                    <div className='text-[11px] text-[#388c89]'>pg/mL</div>
                   </div>
-                  <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
+                  <div className='p-2 bg-[#dcf0f0cc]  rounded border border-blue-100'>
+                    <div className='text-[14px] text-[#43a5a1] font-semibold mb-1'>
                       Free T4
                     </div>
-                    <div className='text-lg font-bold text-blue-900'>
+                    <div className='text-lg font-bold text-[#268e8b]'>
                       {currentScenario.thyroidValues.freeT4}
                     </div>
-                    <div className='text-[11px] text-blue-600'>ng/dL</div>
+                    <div className='text-[11px] text-[#388c89]'>ng/dL</div>
                   </div>
-                  <div className='p-2 bg-purple-50 rounded border border-purple-100'>
-                    <div className='text-[14px] text-purple-600 font-semibold mb-1'>
+                  <div className='p-2 bg-[#f4eafc] rounded border border-purple-100'>
+                    <div className='text-[14px] text-[#aa60e7] font-semibold mb-1'>
                       TPO Ab
                     </div>
-                    <div className='text-lg font-bold text-purple-900'>
+                    <div className='text-lg font-bold text-[#8652b0]'>
                       {currentScenario.thyroidValues.tpoAntibodies}
                     </div>
-                    <div className='text-[11px] text-purple-600'>IU/mL</div>
+                    <div className='text-[11px] text-[#915abe]'>IU/mL</div>
                   </div>
-                  <div className='p-2 bg-purple-50 rounded border border-purple-100'>
-                    <div className='text-[14px] text-purple-600 font-semibold mb-1'>
+                  <div className='p-2 bg-[#f4eafc] rounded border border-purple-100'>
+                    <div className='text-[14px] text-[#aa60e7] font-semibold mb-1'>
                       Tg Ab
                     </div>
-                    <div className='text-lg font-bold text-purple-900'>
+                    <div className='text-lg font-bold text-[#8652b0]'>
                       {currentScenario.thyroidValues.tgAntibodies}
                     </div>
-                    <div className='text-[11px] text-purple-600'>IU/mL</div>
+                    <div className='text-[11px] text-[#915abe]'>IU/mL</div>
                   </div>
                 </div>
 
@@ -208,7 +208,7 @@ export const ThyroidExplorer: React.FC = () => {
                         (impact, idx) => (
                           <li
                             key={idx}
-                            className='text-xs text-gray-700 flex items-start'
+                            className='text-xs text-[#8e9047] flex items-start'
                           >
                             <span className='text-pink-500 mr-2'>•</span>
                             <span>{impact}</span>
@@ -222,7 +222,7 @@ export const ThyroidExplorer: React.FC = () => {
                     <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
                       Clinical Notes
                     </h3>
-                    <p className='text-xs text-gray-700 leading-relaxed'>
+                    <p className='text-xs text-[#8e9047] leading-relaxed'>
                       {currentScenario.clinicalNotes}
                     </p>
                   </div>

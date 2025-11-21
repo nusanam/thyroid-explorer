@@ -320,7 +320,7 @@ export const NetworkVisualization: React.FC<Props> = ({
         getSimulationNodeLabelSize(d, d.id === selectedNode, isMobile)
       )
       .attr('font-weight', (d) => (d.id === selectedNode ? 700 : 600))
-      .attr('fill', '#1f2937')
+      .attr('fill', '#4d787ecc')
       .attr('class', 'transition-all duration-300')
       .text((d) => d.label)
       .style('pointer-events', 'none');
@@ -344,7 +344,7 @@ export const NetworkVisualization: React.FC<Props> = ({
         return (this as SVGPathElement).getTotalLength();
       })
       .transition()
-      .duration(1000)
+      .duration(600)
       .delay((_d, i) => getEntranceDelay(i, 30))
       .attr('stroke-dashoffset', 0);
   }, [
@@ -368,7 +368,7 @@ export const NetworkVisualization: React.FC<Props> = ({
     <div className='relative'>
       {/* Path Mode Controls */}
       <div className='absolute top-4 right-4 bg-white rounded-lg shadow-lg p-3 z-10'>
-        <div className='text-xs font-semibold mb-2 text-gray-700'>
+        <div className='text-xs font-semibold mb-2 text-[#4d787ecc]'>
           Path Display:
         </div>
         <div className='flex gap-2'>
@@ -377,7 +377,7 @@ export const NetworkVisualization: React.FC<Props> = ({
             className={`px-3 py-1 text-xs rounded ${
               activePathMode === 'upstream'
                 ? 'bg-orange-500 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-gray-200 text-[#8e9047] hover:bg-gray-300'
             }`}
           >
             ← Upstream
@@ -386,8 +386,8 @@ export const NetworkVisualization: React.FC<Props> = ({
             onClick={() => setActivePathMode('both')}
             className={`px-3 py-1 text-xs rounded ${
               activePathMode === 'both'
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-[#4d787ecc] text-white'
+                : 'bg-text-[#588a91cc] text-gray-700 hover:bg-gray-300'
             }`}
           >
             ⇄ Both
@@ -397,7 +397,7 @@ export const NetworkVisualization: React.FC<Props> = ({
             className={`px-3 py-1 text-xs rounded ${
               activePathMode === 'downstream'
                 ? 'bg-green-500 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                : 'bg-gray-200 text-[#8e9047] hover:bg-gray-300'
             }`}
           >
             Downstream →

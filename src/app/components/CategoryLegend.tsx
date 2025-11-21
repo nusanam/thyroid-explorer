@@ -11,7 +11,7 @@ export const CategoryLegend: React.FC = () => {
 
       {/* Node Categories */}
       <div className='mb-4'>
-        <h4 className='text-xs font-medium text-[#426a70cc] mb-2'>
+        <h4 className='text-xs font-medium text-[#8e9047] mb-2'>
           Node Categories
         </h4>
         <div className='space-y-2'>
@@ -61,7 +61,7 @@ export const CategoryLegend: React.FC = () => {
 
       {/* Connection Types */}
       <div>
-        <h4 className='text-xs font-medium text-[#426a70cc] mb-2'>
+        <h4 className='text-xs font-medium text-[#8e9047] mb-2'>
           Connection Types
         </h4>
         <div className='space-y-2'>

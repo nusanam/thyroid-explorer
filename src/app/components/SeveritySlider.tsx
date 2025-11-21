@@ -42,7 +42,7 @@ export const SeveritySlider: React.FC<Props> = ({ value, onChange }) => {
             style={{
               backgroundColor:
                 value === option.value ? option.color : '#f3f4f6',
-              color: value === option.value ? 'white' : '#374151',
+              color: value === option.value ? 'white' : '#426a70cc',
               boxShadow:
                 value === option.value
                   ? `0 0 0 2px ${option.color}, 0 0 0 4px white`
