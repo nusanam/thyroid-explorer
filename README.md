@@ -1,6 +1,51 @@
+# Thyroid-Reproductive Health Connection Explorer
+
+An interactive data visualization exploring how thyroid dysfunction cascades into reproductive health impacts.
+
+## Why This Matters
+
+Subclinical thyroid dysfunction affects 5-10% of reproductive-age women but is often overlooked in standard care. This visualization demonstrates:
+
+- How thyroid markers influence reproductive hormones
+- Why comprehensive testing (not just TSH) is critical
+- The biological pathways from cause to effect
+- Clinical scenarios from optimal to dysfunctional states
+
+If you'd like more details, please take a look at [TechnicalDetails.md](TechnicalDetails.md)
+
+## Features
+
+- **Interactive Network Graph**: Explore connections between thyroid and reproductive health
+- **Severity Slider**: See how impacts amplify from subclinical to overt dysfunction
+- **Clinical Scenarios**: Pre-configured examples of real patient patterns
+- **Guided Tour**: Step-by-step walkthrough of key pathways
+- **Research-Backed**: All connections cited from peer-reviewed literature
+
+## Technical Stack
+
+- React + TypeScript
+- D3.js for visualization
+- Framer Motion for animations
+- Tailwind CSS for styling
+
+## Running Locally
+
+\`\`\`bash
+npm install
+npm run dev
+\`\`\`
+
+## Research Sources
+
+1. Poppe K, et al. "Thyroid disease and female reproduction." Clinical Endocrinology. 2007
+2. Krassas GE, et al. "Thyroid function and human reproductive health." Endocrine Reviews. 2010
+
+## Built With
+
+Created as a portfolio project to demonstrate the intersection of data visualization, health education, and comprehensive lab testing advocacy.
+
 ### Component Structure
 
-````
 src/
   components/
     ThyroidExplorer.tsx         // Main container
@@ -65,12 +110,14 @@ export default defineConfig([
     },
   },
 ])
-````
+```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
+
 ```js
 // eslint.config.js
+
 import reactX from 'eslint-plugin-react-x';
 import reactDom from 'eslint-plugin-react-dom';
 

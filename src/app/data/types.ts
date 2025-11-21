@@ -39,3 +39,9 @@ export interface Scenario {
   reproductiveImpacts: string[];
   clinicalNotes: string;
 }
+export interface Stats {
+  timeToConception: string;
+  miscarriageRisk: string;
+  anovulationRate: string;
+  lutealPhaseLength: string;
+}

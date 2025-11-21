@@ -1,4 +1,4 @@
-import { getSimulationLinkColor } from "../utils/stylers";
+import { getSimulationLinkColor } from "../utils/styling";
 
 export function addParticleFlow(svg, links, layout) {
   links.forEach(link => {
@@ -11,7 +11,7 @@ export function addParticleFlow(svg, links, layout) {
       .attr('fill', getSimulationLinkColor(link.type))
       .attr('cx', source.x)
       .attr('cy', source.y);
-    
+
     })
     return
 

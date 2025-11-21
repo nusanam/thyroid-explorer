@@ -1,8 +1,8 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import type { SimulationNode } from '../data/types';
-
+import { AnimatePresence, motion } from 'framer-motion';
+import type { SimulationLink, SimulationNode } from '../data/types';
 interface Props {
-  node: SimulationNode | null;
+  node: SimulationNode;
+  links: SimulationLink;
   onClose: () => void;
 }
 
@@ -24,47 +24,47 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
           ✕
         </button>
 
-        <h2 className='text-2xl font-bold mb-2'>{node.label}</h2>
-        <p className='text-gray-600 mb-4'>{node.description}</p>
+        <h2 className='text-2xl font-bold mb-2'>{node?.label}</h2>
+        <p className='text-gray-600 mb-4'>{node?.description}</p>
 
-        {node.normalRange && (
+        {node?.normalRange && (
           <div className='mb-4 p-3 bg-blue-50 rounded'>
             <div className='text-sm font-medium text-blue-900'>
               Normal Range
             </div>
             <div className='text-lg'>
-              {node.normalRange} {node.unit}
+              {node?.normalRange} {node.unit}
             </div>
           </div>
         )}
 
-        {node.optimalRange && (
+        {node?.optimalRange && (
           <div className='mb-4 p-3 bg-green-50 rounded'>
             <div className='text-sm font-medium text-green-900'>
               Optimal Range
             </div>
-            <div className='text-lg'>{node.optimalRange}</div>
+            <div className='text-lg'>{node?.optimalRange}</div>
           </div>
         )}
 
         <div className='space-y-4'>
           <div>
             <h3 className='font-semibold text-lg mb-2'>What It Is</h3>
-            <p className='text-gray-700'>{node.educationalContent.whatItIs}</p>
+            <p className='text-gray-700'>{node?.educationalContent.whatItIs}</p>
           </div>
 
           <div>
             <h3 className='font-semibold text-lg mb-2'>Why It Matters</h3>
             <p className='text-gray-700'>
-              {node.educationalContent.whyItMatters}
+              {node?.educationalContent.whyItMatters}
             </p>
           </div>
 
-          {node.educationalContent.howToOptimize && (
+          {node?.educationalContent.howToOptimize && (
             <div>
               <h3 className='font-semibold text-lg mb-2'>How to Optimize</h3>
               <p className='text-gray-700'>
-                {node.educationalContent.howToOptimize}
+                {node?.educationalContent.howToOptimize}
               </p>
             </div>
           )}

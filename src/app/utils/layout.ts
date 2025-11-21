@@ -1,4 +1,4 @@
-import type { SimulationNode } from '../data/types';
+import type { SimulationNode } from '../app/data/types';
 // ==================== LAYOUT HELPERS ====================
 
 /**
