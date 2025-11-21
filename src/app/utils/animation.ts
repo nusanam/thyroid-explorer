@@ -1,4 +1,4 @@
-// ==================== ANIMATION HELPERS ====================
+// ANIMATION HELPERS
 
 /**
  * Get staggered delay for entrance animations

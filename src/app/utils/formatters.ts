@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 
-// ==================== FORMAT HELPERS ====================
+// FORMAT HELPERS
 
 /**
  * Format lab value with unit

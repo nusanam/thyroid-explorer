@@ -1,7 +1,7 @@
-import type { SimulationLink, SimulationNode } from '../app/data/types';
+import type { SimulationLink, SimulationNode } from '../data/types';
 import { getSimulationNodeAndLinks } from './pathfinder';
 
-// ==================== ACCESSIBILITY HELPERS ====================
+// ACCESSIBILITY HELPERS
 
 /**
  * Get ARIA label for SimulationNode

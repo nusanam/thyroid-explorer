@@ -1,7 +1,7 @@
 import type { SimulationLink, SimulationNode } from '../data/types';
 import { isSimulationLinkInPath } from './pathfinder';
 
-// ==================== COLOR HELPERS ====================
+// COLOR HELPERS
 
 /**
  * Get color for SimulationLink type

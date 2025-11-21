@@ -1,5 +1,6 @@
 import type { SimulationNode } from '../data/types';
-// ==================== LAYOUT HELPERS ====================
+
+// LAYOUT HELPERS
 
 /**
  * Calculate SimulationNode positions in a three-column layout

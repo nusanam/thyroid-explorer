@@ -1,7 +1,7 @@
-import type { SimulationLink, SimulationNode } from '../app/data/types';
+import type { SimulationLink, SimulationNode } from '../data/types';
 import { getSimulationNodeAndLinks } from './pathfinder';
 
-// ==================== EXPORT HELPERS ====================
+// EXPORT HELPERS
 
 /**
  * Generate citation text for research references
