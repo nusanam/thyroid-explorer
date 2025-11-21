@@ -2,24 +2,22 @@ import { useEffect, useState } from 'react';
 
 export const useResponsiveDimensions = () => {
   const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    isMobile: window.innerWidth < 768,
-    isTablet: window.innerWidth >= 768 && window.innerWidth < 1024,
-    isDesktop: window.innerWidth >= 1024,
+    width: typeof window !== 'undefined' ? window.innerWidth - 100 : 1200,
+    height: typeof window !== 'undefined' ? window.innerHeight - 200 : 800,
+    isMobile: typeof window !== 'undefined' ? window.innerWidth < 768 : false,
   });
 
   useEffect(() => {
     const handleResize = () => {
+      const isMobile = window.innerWidth < 768;
       setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isMobile: window.innerWidth < 768,
-        isTablet: window.innerWidth >= 768 && window.innerWidth < 1024,
-        isDesktop: window.innerWidth >= 1024,
+        width: isMobile ? window.innerWidth - 40 : window.innerWidth - 100,
+        height: isMobile ? 1200 : Math.min(window.innerHeight - 200, 900),
+        isMobile,
       });
     };
 
+    handleResize(); // call once on mount
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

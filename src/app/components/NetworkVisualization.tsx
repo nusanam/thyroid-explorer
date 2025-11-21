@@ -94,7 +94,14 @@ export const NetworkVisualization: React.FC<Props> = ({
 
         const source = layout[sourceId];
         const target = layout[targetId];
-        return createCurvedPath(source, target); // Using helper
+
+        // Skip if source or target doesn't exist
+        if (!source || !target) {
+          console.warn(`Missing node in layout: ${sourceId} -> ${targetId}`);
+          return 'M 0,0';
+        }
+
+        return createCurvedPath(source, target);
       })
       .attr('stroke', (d) => getSimulationLinkColor(d.type)) // Using helper
       .attr('stroke-width', (d, i) => {

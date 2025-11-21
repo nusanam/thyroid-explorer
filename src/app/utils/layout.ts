@@ -66,12 +66,17 @@ export const calculateLayout = (
  * Create a curved path between two points (for SimulationLinks)
  */
 export const createCurvedPath = (
-  source: { x: number; y: number },
-  target: { x: number; y: number }
+  source: { x: number; y: number } | undefined,
+  target: { x: number; y: number } | undefined
 ): string => {
+  // Safety check
+  if (!source || !target) {
+    return 'M 0,0';
+  }
+
   const midX = (source.x + target.x) / 2;
 
-  // Use quadratic bezier curve for smooth SimulationLink
+  // Use quadratic bezier curve for smooth link
   return `M ${source.x},${source.y} Q ${midX},${source.y} ${midX},${
     (source.y + target.y) / 2
   } T ${target.x},${target.y}`;

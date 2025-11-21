@@ -1,11 +1,8 @@
-import './App.css'
+import './App.css';
+import { ThyroidExplorer } from './components/ThyroidExplorer';
 
 function App() {
-
-  return (
-    <>
-    </>
-  )
+  return <ThyroidExplorer />;
 }
 
-export default App
+export default App;
