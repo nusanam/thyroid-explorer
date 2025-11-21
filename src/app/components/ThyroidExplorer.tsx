@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { links } from '../data/links';
 import { nodes } from '../data/nodes';
+import { scenarios } from '../data/scenarios';
 import type { Scenario } from '../data/types';
 import { useResponsiveDimensions } from '../hooks/useResponsiveDimensions';
-import { validateSimulationLinks } from '../utils/validation';
 import { CategoryLegend } from './CategoryLegend';
 import { GuidedTour } from './GuidedTour';
 import { NetworkVisualization } from './NetworkVisualization';
 import { NodeDetail } from './NodeDetail';
-import { ScenarioSelector } from './ScenarioSelector';
 import { SeveritySlider } from './SeveritySlider';
 
 export const ThyroidExplorer: React.FC = () => {
@@ -23,14 +22,6 @@ export const ThyroidExplorer: React.FC = () => {
 
   // Get responsive dimensions
   const { width, height, isMobile } = useResponsiveDimensions();
-
-  // Validate data on mount
-  useEffect(() => {
-    const validation = validateSimulationLinks(nodes, links);
-    if (!validation.valid) {
-      console.error('Connection validation errors:', validation.errors);
-    }
-  }, []);
 
   // Get selected node object
   const selectedNodeData = selectedNode
@@ -78,138 +69,181 @@ export const ThyroidExplorer: React.FC = () => {
   return (
     <div className='min-h-screen bg-gradient-to-br from-blue-50 to-purple-50'>
       {/* Header */}
-      <header className='bg-white border-b border-gray-200 px-6 py-4'>
-        <div className='max-w-7xl mx-auto'>
-          <h1 className='text-3xl font-bold text-gray-900 mb-2'>
+      <header className='bg-white border-b border-gray-200 shadow-sm'>
+        <div className='max-w-7xl mx-auto px-8 py-6'>
+          <h1 className='text-4xl font-bold text-gray-900 mb-2'>
             Thyroid-Reproductive Health Connection
           </h1>
-          <p className='text-gray-600'>
+          <p className='text-lg text-gray-600'>
             Explore how thyroid dysfunction cascades into reproductive health
             impacts. Click nodes for details, hover to highlight pathways.
           </p>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className='max-w-7xl mx-auto px-6 py-6'>
-        {/* Scenario Selector */}
-        <div className='mb-6'>
-          <ScenarioSelector onSelect={handleScenarioSelect} />
-        </div>
-
-        {/* Controls Row */}
-        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6'>
-          <div className='lg:col-span-2'>
-            <SeveritySlider value={severity} onChange={handleSeverityChange} />
-          </div>
-          <div>
-            <CategoryLegend />
-          </div>
-        </div>
-
-        {/* Visualization Container */}
-        <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-6'>
-          <NetworkVisualization
-            nodes={nodes}
-            links={links}
-            severity={severity}
-            highlightedPath={highlightedPath}
-            selectedNode={selectedNode}
-            hoveredNode={hoveredNode}
-            onNodeClick={handleNodeClick}
-            onNodeHover={handleNodeHover}
-            width={width}
-            height={height}
-            isMobile={isMobile}
-          />
-        </div>
-
-        {/* Current Scenario Info */}
-        {currentScenario && (
-          <div className='bg-white rounded-xl shadow-lg p-6 mb-6'>
-            <h2 className='text-2xl font-bold text-gray-900 mb-3'>
-              {currentScenario.name}
-            </h2>
-            <p className='text-gray-600 mb-4'>{currentScenario.description}</p>
-
-            <div className='grid grid-cols-2 sm:grid-cols-5 gap-4 mb-4'>
-              <div className='p-3 bg-blue-50 rounded-lg'>
-                <div className='text-xs text-blue-600 font-medium mb-1'>
-                  TSH
-                </div>
-                <div className='text-lg font-bold text-blue-900'>
-                  {currentScenario.thyroidValues.tsh} mIU/L
-                </div>
-              </div>
-              <div className='p-3 bg-blue-50 rounded-lg'>
-                <div className='text-xs text-blue-600 font-medium mb-1'>
-                  Free T3
-                </div>
-                <div className='text-lg font-bold text-blue-900'>
-                  {currentScenario.thyroidValues.freeT3} pg/mL
-                </div>
-              </div>
-              <div className='p-3 bg-blue-50 rounded-lg'>
-                <div className='text-xs text-blue-600 font-medium mb-1'>
-                  Free T4
-                </div>
-                <div className='text-lg font-bold text-blue-900'>
-                  {currentScenario.thyroidValues.freeT4} ng/dL
-                </div>
-              </div>
-              <div className='p-3 bg-purple-50 rounded-lg'>
-                <div className='text-xs text-purple-600 font-medium mb-1'>
-                  TPO Ab
-                </div>
-                <div className='text-lg font-bold text-purple-900'>
-                  {currentScenario.thyroidValues.tpoAntibodies} IU/mL
-                </div>
-              </div>
-              <div className='p-3 bg-purple-50 rounded-lg'>
-                <div className='text-xs text-purple-600 font-medium mb-1'>
-                  Tg Ab
-                </div>
-                <div className='text-lg font-bold text-purple-900'>
-                  {currentScenario.thyroidValues.tgAntibodies} IU/mL
-                </div>
-              </div>
-            </div>
-
-            <div className='mb-4'>
-              <h3 className='font-semibold text-gray-900 mb-2'>
-                Reproductive Impacts:
+      {/* Main Content - Two Column Layout */}
+      <div className='max-w-7xl mx-auto px-8 py-6'>
+        <div className='flex gap-6'>
+          {/* Left Sidebar - Controls */}
+          <div className='w-80 flex-shrink-0 space-y-6'>
+            {/* Scenario Selector */}
+            <div className='bg-white rounded-lg shadow-lg p-6'>
+              <h3 className='text-xl font-semibold mb-4 text-gray-900'>
+                Clinical Scenarios
               </h3>
-              <ul className='space-y-1'>
-                {currentScenario.reproductiveImpacts.map((impact, idx) => (
-                  <li key={idx} className='text-gray-700 flex items-start'>
-                    <span className='text-pink-500 mr-2'>•</span>
-                    {impact}
-                  </li>
+              <div className='space-y-3'>
+                {scenarios.map((scenario) => (
+                  <button
+                    key={scenario.id}
+                    onClick={() => handleScenarioSelect(scenario)}
+                    className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
+                      currentScenario?.id === scenario.id
+                        ? 'border-blue-500 bg-blue-50'
+                        : 'border-gray-200 hover:border-blue-300 bg-white'
+                    }`}
+                  >
+                    <h4 className='font-semibold text-sm text-gray-900 mb-1'>
+                      {scenario.name}
+                    </h4>
+                    <p className='text-xs text-gray-600 leading-relaxed'>
+                      {scenario.description}
+                    </p>
+                  </button>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            <div className='p-4 bg-gray-50 rounded-lg'>
-              <h3 className='font-semibold text-gray-900 mb-1'>
-                Clinical Notes:
-              </h3>
-              <p className='text-gray-700 text-sm'>
-                {currentScenario.clinicalNotes}
+            {/* Severity Slider */}
+            <div className='bg-white rounded-lg shadow-lg p-6'>
+              <SeveritySlider
+                value={severity}
+                onChange={handleSeverityChange}
+              />
+            </div>
+
+            {/* Legend */}
+            <div className='bg-white rounded-lg shadow-lg p-6'>
+              <CategoryLegend />
+            </div>
+
+            {/* Research Note */}
+            <div className='bg-blue-50 border-2 border-blue-200 rounded-lg p-4'>
+              <p className='text-sm text-blue-800'>
+                <span className='font-semibold'>📚 Research-Backed:</span> All
+                connections based on peer-reviewed research
               </p>
             </div>
           </div>
-        )}
 
-        {/* Research Note */}
-        <div className='bg-blue-50 border border-blue-200 rounded-xl p-6'>
-          <h3 className='font-semibold text-blue-900 mb-2 flex items-center gap-2'>
-            <span>📚</span> Research-Backed Visualization
-          </h3>
-          <p className='text-blue-800 text-sm'>
-            All connections in this visualization are based on peer-reviewed
-            research. Click any connection or node to see the supporting
-            citations.
-          </p>
+          {/* Right Side - Visualization */}
+          <div className='flex-1 min-w-0'>
+            <div className='bg-white rounded-xl shadow-xl p-6 mb-6'>
+              <NetworkVisualization
+                nodes={nodes}
+                links={links}
+                severity={severity}
+                highlightedPath={highlightedPath}
+                selectedNode={selectedNode}
+                hoveredNode={hoveredNode}
+                onNodeClick={handleNodeClick}
+                onNodeHover={handleNodeHover}
+                width={width}
+                height={height}
+                isMobile={isMobile}
+              />
+            </div>
+
+            {/* Current Scenario Info - Below Diagram */}
+            {currentScenario && (
+              <div className='bg-white rounded-xl shadow-lg p-6'>
+                <h2 className='text-2xl font-bold text-gray-900 mb-3'>
+                  {currentScenario.name}
+                </h2>
+                <p className='text-gray-600 mb-6 leading-relaxed'>
+                  {currentScenario.description}
+                </p>
+
+                {/* Lab Values Grid */}
+                <div className='grid grid-cols-5 gap-4 mb-6'>
+                  <div className='p-4 bg-blue-50 rounded-lg border border-blue-100'>
+                    <div className='text-xs text-blue-600 font-semibold mb-2'>
+                      TSH
+                    </div>
+                    <div className='text-xl font-bold text-blue-900'>
+                      {currentScenario.thyroidValues.tsh}
+                    </div>
+                    <div className='text-xs text-blue-600 mt-1'>mIU/L</div>
+                  </div>
+                  <div className='p-4 bg-blue-50 rounded-lg border border-blue-100'>
+                    <div className='text-xs text-blue-600 font-semibold mb-2'>
+                      Free T3
+                    </div>
+                    <div className='text-xl font-bold text-blue-900'>
+                      {currentScenario.thyroidValues.freeT3}
+                    </div>
+                    <div className='text-xs text-blue-600 mt-1'>pg/mL</div>
+                  </div>
+                  <div className='p-4 bg-blue-50 rounded-lg border border-blue-100'>
+                    <div className='text-xs text-blue-600 font-semibold mb-2'>
+                      Free T4
+                    </div>
+                    <div className='text-xl font-bold text-blue-900'>
+                      {currentScenario.thyroidValues.freeT4}
+                    </div>
+                    <div className='text-xs text-blue-600 mt-1'>ng/dL</div>
+                  </div>
+                  <div className='p-4 bg-purple-50 rounded-lg border border-purple-100'>
+                    <div className='text-xs text-purple-600 font-semibold mb-2'>
+                      TPO Ab
+                    </div>
+                    <div className='text-xl font-bold text-purple-900'>
+                      {currentScenario.thyroidValues.tpoAntibodies}
+                    </div>
+                    <div className='text-xs text-purple-600 mt-1'>IU/mL</div>
+                  </div>
+                  <div className='p-4 bg-purple-50 rounded-lg border border-purple-100'>
+                    <div className='text-xs text-purple-600 font-semibold mb-2'>
+                      Tg Ab
+                    </div>
+                    <div className='text-xl font-bold text-purple-900'>
+                      {currentScenario.thyroidValues.tgAntibodies}
+                    </div>
+                    <div className='text-xs text-purple-600 mt-1'>IU/mL</div>
+                  </div>
+                </div>
+
+                {/* Reproductive Impacts */}
+                <div className='mb-6'>
+                  <h3 className='font-semibold text-gray-900 mb-3 text-lg'>
+                    Reproductive Impacts:
+                  </h3>
+                  <ul className='space-y-2'>
+                    {currentScenario.reproductiveImpacts.map((impact, idx) => (
+                      <li
+                        key={idx}
+                        className='text-gray-700 flex items-start leading-relaxed'
+                      >
+                        <span className='text-pink-500 mr-3 mt-1 font-bold'>
+                          •
+                        </span>
+                        <span>{impact}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Clinical Notes */}
+                <div className='p-4 bg-gray-50 rounded-lg border-2 border-gray-200'>
+                  <h3 className='font-semibold text-gray-900 mb-2 text-lg'>
+                    Clinical Notes:
+                  </h3>
+                  <p className='text-gray-700 leading-relaxed'>
+                    {currentScenario.clinicalNotes}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
