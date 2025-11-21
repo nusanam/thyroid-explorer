@@ -1,11 +1,11 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface TourStep {
   title: string;
   description: string;
-  highlightNode?: string;
-  highlightPath?: string[];
+  highlightNode: string | null;
+  highlightPath: string[] | null;
   position: { x: number; y: number };
 }
 
@@ -15,12 +15,15 @@ const tourSteps: TourStep[] = [
     description:
       "This visualization shows how thyroid dysfunction cascades into reproductive health issues. Let's explore the pathways.",
     position: { x: 400, y: 100 },
+    highlightPath: null,
+    highlightNode: null,
   },
   {
     title: 'It Starts with TSH',
     description:
       'TSH (Thyroid Stimulating Hormone) is released by your pituitary. When elevated (>2.5), it indicates your thyroid is struggling.',
     highlightNode: 'tsh',
+    highlightPath: null,
     position: { x: 200, y: 300 },
   },
   {
@@ -28,6 +31,7 @@ const tourSteps: TourStep[] = [
     description:
       'Elevated TSH directly interferes with corpus luteum function, reducing progesterone production after ovulation.',
     highlightPath: ['tsh', 'progesterone'],
+    highlightNode: null,
     position: { x: 400, y: 350 },
   },
   {
@@ -35,6 +39,7 @@ const tourSteps: TourStep[] = [
     description:
       'Without adequate progesterone, the luteal phase becomes too short (<10 days), making it difficult for embryos to implant.',
     highlightPath: ['progesterone', 'luteal_phase_length'],
+    highlightNode: null,
     position: { x: 700, y: 400 },
   },
   {
@@ -42,6 +47,7 @@ const tourSteps: TourStep[] = [
     description:
       'Thyroid hormones regulate basal body temperature. Hypothyroidism causes lower temps, making BBT charting less reliable.',
     highlightPath: ['free_t3', 'basal_temp', 'bbt_pattern'],
+    highlightNode: null,
     position: { x: 600, y: 200 },
   },
   {
@@ -60,18 +66,22 @@ const tourSteps: TourStep[] = [
     title: 'Multiple Pathways Converge',
     description:
       'Notice how thyroid dysfunction affects reproduction through many simultaneous pathways—metabolism, hormones, immune system, and more.',
+    highlightPath: null,
+    highlightNode: null,
     position: { x: 600, y: 100 },
   },
   {
     title: 'Why Comprehensive Testing Matters',
     description:
       'Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. This is what Function Health provides.',
+    highlightPath: null,
+    highlightNode: null,
     position: { x: 400, y: 150 },
   },
 ];
 
 interface Props {
-  onHighlight: (nodeId?: string, path?: string[]) => void;
+  onHighlight: (nodeId: string | null, path: string[] | null) => void;
 }
 
 export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
@@ -104,7 +114,7 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
 
   const endTour = () => {
     setIsActive(false);
-    onHighlight(undefined, undefined);
+    onHighlight(null, null);
   };
 
   const applyStep = (stepIndex: number) => {

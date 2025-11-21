@@ -1,15 +1,15 @@
+import { useEffect, useState } from 'react';
+import { links } from '../data/links';
+import { nodes } from '../data/nodes';
 import type { Scenario } from '../data/types';
+import { useResponsiveDimensions } from '../hooks/useResponsiveDimensions';
+import { validateSimulationLinks } from '../utils/validation';
+import { CategoryLegend } from './CategoryLegend';
+import { GuidedTour } from './GuidedTour';
 import { NetworkVisualization } from './NetworkVisualization';
 import { NodeDetail } from './NodeDetail';
 import { ScenarioSelector } from './ScenarioSelector';
 import { SeveritySlider } from './SeveritySlider';
-import { GuidedTour } from './GuidedTour';
-import { CategoryLegend } from './CategoryLegend';
-import { useEffect, useState } from 'react';
-import { links } from '../data/links';
-import { nodes } from '../data/nodes';
-import { useResponsiveDimensions } from '../hooks/useResponsiveDimensions';
-import { validateSimulationLinks } from '../utils/validation';
 
 export const ThyroidExplorer: React.FC = () => {
   // State management
@@ -18,9 +18,7 @@ export const ThyroidExplorer: React.FC = () => {
   );
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
-  const [highlightedPath, setHighlightedPath] = useState<string[] | undefined>(
-    undefined
-  );
+  const [highlightedPath, setHighlightedPath] = useState<string[] | null>(null);
   const [currentScenario, setCurrentScenario] = useState<Scenario | null>(null);
 
   // Get responsive dimensions
@@ -69,9 +67,12 @@ export const ThyroidExplorer: React.FC = () => {
     }
   };
 
-  const handleTourHighlight = (nodeId?: string, path?: string[]) => {
+  const handleTourHighlight = (
+    nodeId: string | null,
+    path: string[] | null
+  ) => {
     setSelectedNode(nodeId || null);
-    setHighlightedPath(path);
+    setHighlightedPath(path || null);
   };
   return (
     <div className='thyroid-explorer min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 md:p-8'>

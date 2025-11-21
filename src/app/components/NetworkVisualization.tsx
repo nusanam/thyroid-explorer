@@ -30,9 +30,9 @@ interface Props {
   nodes: SimulationNode[];
   links: SimulationLink[];
   severity: 'normal' | 'subclinical' | 'overt';
-  highlightedPath?: string[];
-  selectedNode?: string;
-  hoveredNode?: string;
+  highlightedPath: string[] | null;
+  selectedNode: string | null;
+  hoveredNode: string | null;
   onNodeClick: (nodeId: string) => void;
   onNodeHover: (nodeId: string | null) => void;
   width: number;
@@ -52,8 +52,7 @@ export const NetworkVisualization: React.FC<Props> = ({
   onNodeHover,
   width,
   height,
-  // isMobile,
-  // scenarios,
+  isMobile,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -116,7 +115,7 @@ export const NetworkVisualization: React.FC<Props> = ({
           .attr('opacity', 0.9)
           .attr(
             'stroke-width',
-            getSimulationLinkWidth(d.strength, severity) + 2
+            getSimulationLinkWidth(d.strength, severity, isMobile) + 2
           );
 
         // Show tooltip (implement separately)
@@ -204,7 +203,7 @@ export const NetworkVisualization: React.FC<Props> = ({
             setHighlightedNodes,
             setHighlightedLinks,
             activePathMode
-          )
+          );
         }
       })
       .on('mouseenter', function (event, d) {
@@ -255,7 +254,7 @@ export const NetworkVisualization: React.FC<Props> = ({
     nodeGroups
       .append('circle')
       .attr('r', (d) =>
-        getSimulationNodeRadius(d, severity, d.id === selectedNode)
+        getSimulationNodeRadius(d, severity, d.id === selectedNode, isMobile)
       ) // Using helper
       .attr('fill', (d) => getSimulationNodeColor(d.category)) // Using helper
       .attr('stroke', (d) => (d.id === selectedNode ? '#000' : '#fff'))
@@ -271,7 +270,13 @@ export const NetworkVisualization: React.FC<Props> = ({
       .attr('text-anchor', 'middle')
       .attr(
         'dy',
-        (d) => getSimulationNodeRadius(d, severity, d.id === selectedNode) + 20
+        (d) =>
+          getSimulationNodeRadius(
+            d,
+            severity,
+            d.id === selectedNode,
+            isMobile
+          ) + 20
       ) // Position below node
       .attr('font-size', (d) =>
         getSimulationNodeLabelSize(d, d.id === selectedNode)
@@ -330,6 +335,7 @@ export const NetworkVisualization: React.FC<Props> = ({
     hoveredNode,
     width,
     height,
+    isMobile,
   ]);
 
   return (

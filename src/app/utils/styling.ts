@@ -1,4 +1,4 @@
-import type { SimulationLink, SimulationNode } from '../data/types'
+import type { SimulationLink, SimulationNode } from '../data/types';
 import { isSimulationLinkInPath } from './pathfinder';
 
 // ==================== COLOR HELPERS ====================
@@ -89,7 +89,8 @@ export const getSeverityColor = (
  */
 export const getSimulationLinkWidth = (
   strength: 'strong' | 'moderate' | 'weak',
-  severity?: 'normal' | 'subclinical' | 'overt'
+  severity?: 'normal' | 'subclinical' | 'overt',
+  isMobile?: boolean
 ): number => {
   const baseWidth = {
     strong: 3,
@@ -105,10 +106,10 @@ export const getSimulationLinkWidth = (
       overt: 2.5,
     }[severity];
 
-    return baseWidth * multiplier;
+    return baseWidth * multiplier * (isMobile ? 0.8 : 1);
   }
 
-  return baseWidth;
+  return baseWidth * (isMobile ? 0.8 : 1);
 };
 
 /**
@@ -116,7 +117,8 @@ export const getSimulationLinkWidth = (
  */
 export const getSimulationNodeRadius = (
   SimulationNode: SimulationNode,
-  severity?: 'normal' | 'subclinical' | 'overt',
+  severity: 'normal' | 'subclinical' | 'overt',
+  isMobile?: boolean,
   isSelected?: boolean
 ): number => {
   let baseRadius = 30;
@@ -137,7 +139,15 @@ export const getSimulationNodeRadius = (
 
   // Selected SimulationNodes are larger
   if (isSelected) {
+    if (isMobile) {
+      baseRadius *= 1.6;
+    }
     baseRadius *= 1.2;
+  }
+
+  // Increase size for mobile (better touch targets)
+  if (isMobile) {
+    baseRadius *= 1.3;
   }
 
   return baseRadius;
@@ -148,16 +158,25 @@ export const getSimulationNodeRadius = (
  */
 export const getSimulationNodeLabelSize = (
   SimulationNode: SimulationNode,
-  isSelected?: boolean
+  isSelected?: boolean,
+  isMobile?: boolean
 ): number => {
   const baseSize = 14;
 
   if (isSelected) {
+    if (isMobile) {
+      return baseSize + 3;
+    }
     return baseSize + 2;
   }
 
   if (SimulationNode.category === 'reproductive') {
     return baseSize + 1; // Slightly larger for outcomes
+  }
+
+  // Increase font size for mobile readability
+  if (isMobile) {
+    return baseSize + 2;
   }
 
   return baseSize;
@@ -170,8 +189,8 @@ export const getSimulationNodeLabelSize = (
  */
 export const getSimulationLinkOpacity = (
   SimulationLink: SimulationLink,
-  highlightedPath?: string[],
-  hoveredSimulationNode?: string
+  highlightedPath: string[] | null,
+  hoveredSimulationNode: string | null
 ): number => {
   // If nothing is highlighted, show all at medium opacity
   if (!highlightedPath && !hoveredSimulationNode) {
@@ -199,8 +218,8 @@ export const getSimulationLinkOpacity = (
  */
 export const getSimulationNodeOpacity = (
   SimulationNode: SimulationNode,
-  highlightedPath?: string[],
-  hoveredSimulationNode?: string
+  highlightedPath: string[] | null,
+  hoveredSimulationNode: string | null
 ): number => {
   if (!highlightedPath && !hoveredSimulationNode) {
     return 1;

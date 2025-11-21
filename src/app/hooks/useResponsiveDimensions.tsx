@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { NetworkVisualization } from '../components/NetworkVisualization';
 
 export const useResponsiveDimensions = () => {
   const [dimensions, setDimensions] = useState({
@@ -26,23 +25,4 @@ export const useResponsiveDimensions = () => {
   }, []);
 
   return dimensions;
-};
-
-// Adjust visualization for mobile
-export const ResponsiveNetworkVisualization = () => {
-  const { isMobile, isTablet, width } = useResponsiveDimensions();
-
-  const layout = isMobile
-    ? 'vertical' // Stack nodes vertically
-    : isTablet
-    ? 'compact' // Tighter spacing
-    : 'full'; // Full layout
-
-  return (
-    <NetworkVisualization
-      width={width - 40}
-      height={isMobile ? 1200 : 800}
-      layout={layout}
-    />
-  );
 };
