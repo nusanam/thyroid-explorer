@@ -8,7 +8,7 @@ export const nodes: SimulationNode[] = [
     category: 'thyroid',
     description: 'Thyroid Stimulating Hormone',
     normalRange: '0.5-4.5',
-    optimalRange: '<2.5 for fertility',
+    optimalRange: '<2.5 mIU/L for fertility',
     unit: 'mIU/L',
     educationalContent: {
       whatItIs:
@@ -25,7 +25,7 @@ export const nodes: SimulationNode[] = [
     category: 'thyroid',
     description: 'Free Triiodothyronine (Active Thyroid Hormone)',
     normalRange: '2.3-4.2',
-    optimalRange: '3.0-4.0 (upper half of range)',
+    optimalRange: '3.0-4.0 pg/mL (upper half of range)',
     unit: 'pg/mL',
     educationalContent: {
       whatItIs:
@@ -42,7 +42,7 @@ export const nodes: SimulationNode[] = [
     category: 'thyroid',
     description: 'Free Thyroxine (Inactive Thyroid Hormone)',
     normalRange: '0.8-1.8',
-    optimalRange: '1.0-1.5 (mid-range)',
+    optimalRange: '1.0-1.5 ng/dL (mid-range)',
     unit: 'ng/dL',
     educationalContent: {
       whatItIs:
@@ -59,7 +59,7 @@ export const nodes: SimulationNode[] = [
     category: 'thyroid',
     description: 'Thyroid Peroxidase Antibodies',
     normalRange: '<35',
-    optimalRange: '<9 (undetectable)',
+    optimalRange: '<9 IU/mL (undetectable)',
     unit: 'IU/mL',
     educationalContent: {
       whatItIs:
@@ -76,7 +76,7 @@ export const nodes: SimulationNode[] = [
     category: 'thyroid',
     description: 'Thyroglobulin Antibodies',
     normalRange: '<20',
-    optimalRange: '<4 (undetectable)',
+    optimalRange: '<4 IU/mL (undetectable)',
     unit: 'IU/mL',
     educationalContent: {
       whatItIs:
@@ -210,7 +210,6 @@ export const nodes: SimulationNode[] = [
     description: 'Menstrual Cycle Consistency',
     normalRange: '25-35 days',
     optimalRange: '27-32 days (variation <3 days)',
-    unit: 'days',
     educationalContent: {
       whatItIs:
         'Cycle regularity refers to how consistent a cycle length is month-to-month. A regular cycle means ovulation is occurring predictably. Cycles can be regular but long (e.g., consistently 35 days) or irregular with variable length (e.g., 28 days, then 42 days, then 31 days).',
@@ -239,7 +238,7 @@ export const nodes: SimulationNode[] = [
     label: 'Luteal Phase Length',
     category: 'reproductive',
     description: 'Post-Ovulation Phase Duration',
-    normalRange: '10-16 days',
+    normalRange: '10-16',
     optimalRange: '12-14 days',
     unit: 'days',
     educationalContent: {
@@ -272,7 +271,6 @@ export const nodes: SimulationNode[] = [
     description: 'Months to Achieve Pregnancy',
     normalRange: '6-12 months',
     optimalRange: '3-6 months',
-    unit: 'months',
     educationalContent: {
       whatItIs:
         'Time to conception (also called "fecundability") is how long it takes to achieve pregnancy with regular, well-timed intercourse. Healthy couples under 35 have about 20-25% chance per cycle (fecundability rate), meaning 80% conceive within 6 months and 90% within 12 months. This assumes ovulation detection and good timing.',
@@ -288,14 +286,13 @@ export const nodes: SimulationNode[] = [
     category: 'reproductive',
     description: 'Miscarriage & Early Pregnancy Loss',
     normalRange: '15-20% (baseline risk)',
-    unit: 'percent',
     educationalContent: {
       whatItIs:
-        'Pregnancy loss (miscarriage) is loss before 20 weeks, most commonly in first trimester. Baseline risk is 15-20% in detected pregnancies, higher with maternal age. Most first trimester losses are due to chromosomal abnormalities incompatible with life. Recurrent pregnancy loss (RPL) is defined as 2+ consecutive losses.',
+        'Miscarriage is loss before 20 weeks, most commonly in the first trimester. Baseline risk is 15-20% in detected pregnancies, higher with maternal age. Most first trimester losses are due to chromosomal abnormalities incompatible with life. Second trimester losses tend to result from intrauterine infection and/or cervical insufficiency. Pregnancy loss can happen anytime before full term delivery, although the chances are very low after 20 weeks. Recurrent pregnancy loss (RPL) is defined as 2+ consecutive losses.',
       whyItMatters:
         'Both overt and subclinical hypothyroidism increase miscarriage risk. Studies show: TSH >2.5 increases risk by 1.5-2x, TSH >4.0 by 2-3x. Thyroid antibodies increase risk 2-4x even with normal TSH. Mechanisms include: inadequate progesterone support, impaired placental development, increased inflammation, poor egg quality leading to chromosomal abnormalities, and inadequate thyroid hormone for fetal neurodevelopment in early pregnancy.',
       howToOptimize:
-        'Optimize thyroid before conception: TSH <2.5, treat antibodies if present. Start levothyroxine if TSH >2.5 when TTC. If known thyroid condition, increase levothyroxine dose by 25-30% as soon as pregnancy is confirmed (thyroid hormone needs increase immediately). Early progesterone supplementation if history of loss (200mg twice daily vaginally). Monitor TSH every 4 weeks in first trimester, adjust medication to keep TSH 0.5-2.5. Address other risk factors: autoimmune conditions, thrombophilias, anatomic issues.',
+        'Optimize thyroid before conception: TSH <2.5, treat antibodies if present. Start levothyroxine if TSH >2.5 when TTC. If known thyroid condition, increase levothyroxine dose by 25-30% as soon as pregnancy is confirmed (thyroid hormone needs to increase immediately upon pregnancy). Early progesterone supplementation if history of loss (200mg twice daily vaginally). Monitor TSH every 4 weeks in first trimester, adjust medication to keep TSH 0.5-2.5. Address other risk factors: autoimmune conditions, thrombophilias, anatomic issues.',
     },
   },
   {

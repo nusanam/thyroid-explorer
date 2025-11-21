@@ -2,27 +2,28 @@ import { useEffect, useState } from 'react';
 
 export const useResponsiveDimensions = () => {
   const [dimensions, setDimensions] = useState({
-    width: Math.min(window.innerWidth * 0.9, 1400),
-    height: 900,
-    isMobile: window.innerWidth < 768,
-    isTablet: window.innerWidth >= 768 && window.innerWidth < 1024,
-    isDesktop: window.innerWidth >= 1024,
+    width: 1200,
+    height: 650,
+    isMobile: false,
   });
 
   useEffect(() => {
-    const handleResize = () => {
+    const updateDimensions = () => {
       const isMobile = window.innerWidth < 768;
+
+      // Calculate available width
+      const availableWidth = window.innerWidth - 320; // Account for sidebar
+
       setDimensions({
-        width: Math.min(window.innerWidth * 0.9, 1400),
-        height: isMobile ? 1200 : 900,
+        width: Math.min(availableWidth, 1200),
+        height: 650,
         isMobile,
-        isTablet: window.innerWidth >= 768 && window.innerWidth < 1024,
-        isDesktop: window.innerWidth >= 1024,
       });
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
   }, []);
 
   return dimensions;
