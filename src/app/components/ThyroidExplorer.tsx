@@ -116,7 +116,6 @@ export const ThyroidExplorer: React.FC = () => {
                 </div>
               )}
             </div>
-
             {/* Compact Severity Slider */}
             <div className='bg-white rounded-lg shadow-lg p-4'>
               <SeveritySlider
@@ -124,19 +123,18 @@ export const ThyroidExplorer: React.FC = () => {
                 onChange={handleSeverityChange}
               />
             </div>
-
             {/* Compact Legend */}
             <div className='bg-white rounded-lg shadow-lg p-4'>
               <CategoryLegend />
             </div>
-
             {/* Research Note */}
             <div className='bg-blue-50 border-2 border-blue-200 rounded-lg p-3'>
               <p className='text-xs text-blue-800'>
                 <span className='font-semibold'>📚</span> All connections
-                peer-reviewed
+                peer-reviewed.
               </p>
             </div>
+            Copyright © 2025 Ruth Anam.
           </div>
 
           {/* Main Visualization Area */}
