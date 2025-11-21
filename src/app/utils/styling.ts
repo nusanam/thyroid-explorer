@@ -196,7 +196,7 @@ export const getSimulationLinkOpacity = (
 
   // If a path is highlighted, show only that path
   if (highlightedPath) {
-    return isSimulationLinkInPath(SimulationLink, highlightedPath) ? 0.8 : 0.08;
+    return isSimulationLinkInPath(SimulationLink, highlightedPath) ? 0.8 : 0.1;
   }
 
   // If a SimulationNode is hovered, highlight its SimulationLinks
@@ -218,10 +218,12 @@ export const getSimulationNodeOpacity = (
   highlightedPath: string[] | null,
   hoveredSimulationNode: string | null
 ): number => {
+  // If nothing is highlighted or hovered, show everything fully
   if (!highlightedPath && !hoveredSimulationNode) {
     return 1;
   }
 
+  // If this node is in the highlighted path or is hovered, show it fully
   if (highlightedPath && highlightedPath.includes(SimulationNode.id)) {
     return 1;
   }
@@ -230,7 +232,8 @@ export const getSimulationNodeOpacity = (
     return 1;
   }
 
-  return 0.3;
+  // Otherwise, keep nodes visible but slightly dimmed (not invisible!)
+  return 0.5; // Changed from 0.3 to 0.5 so nodes stay visible
 };
 
 // ==================== RESPONSIVE HELPERS ====================

@@ -7,8 +7,6 @@ import { getNodeId } from '../utils/helpers';
 import { calculateLayout, createCurvedPath } from '../utils/layout';
 import {
   clearPathHighlight,
-  findPathsFromSimulationNode,
-  highlightConnectedElements,
   highlightPathsFromNode,
 } from '../utils/pathfinder';
 import {
@@ -214,29 +212,31 @@ export const NetworkVisualization: React.FC<Props> = ({
         }
       })
       .on('mouseenter', function (event, d) {
-        onNodeHover(d.id);
+        // Only show tooltip, don't trigger path highlighting
         showNodeTooltip(event, d, tooltipRef);
 
-        // Temporary highlight on hover (without changing selected state)
-        if (!selectedNode) {
-          const paths = findPathsFromSimulationNode(d.id, links);
-          highlightConnectedElements(
-            d.id,
-            paths,
-            setHighlightedNodes,
-            setHighlightedLinks,
-            activePathMode
-          );
-        }
+        // Commented out to debug disappear on hover/click
+        // onNodeHover(d.id);
+        // if (!selectedNode) {
+        //   const paths = findPathsFromSimulationNode(d.id, links);
+        //   highlightConnectedElements(
+        //     d.id,
+        //     paths,
+        //     setHighlightedNodes,
+        //     setHighlightedLinks,
+        //     activePathMode
+        //   );
+        // }
       })
       .on('mouseleave', () => {
-        onNodeHover(null);
+        // Only hide tooltip, don't clear highlighting
         hideLinkTooltip(tooltipRef);
 
-        // Clear temporary hover highlight if no node is selected
-        if (!selectedNode) {
-          clearPathHighlight(setHighlightedNodes, setHighlightedLinks);
-        }
+        // Commented out to debug disappear on hover/click
+        // onNodeHover(null);
+        // if (!selectedNode) {
+        //   clearPathHighlight(setHighlightedNodes, setHighlightedLinks);
+        // }
       })
       .on('mousemove', function (event: MouseEvent) {
         updateTooltipPosition(event, tooltipRef);
