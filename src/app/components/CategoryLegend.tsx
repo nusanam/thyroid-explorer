@@ -6,69 +6,81 @@ import {
 
 export const CategoryLegend: React.FC = () => {
   return (
-    <div className='bg-white p-6 rounded-lg shadow-lg'>
-      <h3 className='text-lg font-semibold mb-4'>Legend</h3>
+    <div>
+      <h3 className='text-base font-semibold mb-3 text-gray-900'>Legend</h3>
 
       {/* Node Categories */}
-      <div className='mb-6'>
-        <h4 className='text-sm font-medium text-gray-700 mb-3'>
+      <div className='mb-4'>
+        <h4 className='text-xs font-medium text-gray-700 mb-2'>
           Node Categories
         </h4>
-        <div className='space-y-3'>
-          <div className='flex items-center gap-3'>
-            <div
-              className='w-6 h-6 rounded-full flex-shrink-0'
-              style={{ backgroundColor: getSimulationNodeColor('thyroid') }}
-            />
-            <span className='text-sm text-gray-700'>Thyroid Markers</span>
+        <div className='space-y-2'>
+          <div className='flex items-start gap-2'>
+            <div className='flex gap-1 flex-shrink-0 mt-0.5'>
+              <div
+                className='w-4 h-4 rounded-full'
+                style={{ backgroundColor: '#22c55e' }}
+              />
+              <div
+                className='w-4 h-4 rounded-full'
+                style={{ backgroundColor: '#eab308' }}
+              />
+              <div
+                className='w-4 h-4 rounded-full'
+                style={{ backgroundColor: '#ef4444' }}
+              />
+            </div>
+            <span className='text-xs text-gray-700'>
+              Thyroid Markers (severity-based)
+            </span>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2'>
             <div
-              className='w-6 h-6 rounded-full flex-shrink-0'
+              className='w-4 h-4 rounded-full flex-shrink-0'
               style={{
                 backgroundColor: getSimulationNodeColor('intermediate'),
               }}
             />
-            <span className='text-sm text-gray-700'>Intermediate Effects</span>
+            <span className='text-xs text-gray-700'>Intermediate Effects</span>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2'>
             <div
-              className='w-6 h-6 rounded-full flex-shrink-0'
+              className='w-4 h-4 rounded-full flex-shrink-0'
               style={{
                 backgroundColor: getSimulationNodeColor('reproductive'),
               }}
             />
-            <span className='text-sm text-gray-700'>Reproductive Outcomes</span>
+            <span className='text-xs text-gray-700'>Reproductive Outcomes</span>
           </div>
         </div>
       </div>
 
       {/* Connection Types */}
       <div>
-        <h4 className='text-sm font-medium text-gray-700 mb-3'>
+        <h4 className='text-xs font-medium text-gray-700 mb-2'>
           Connection Types
         </h4>
-        <div className='space-y-3'>
-          <div className='flex items-center gap-3'>
+        <div className='space-y-2'>
+          <div className='flex items-center gap-2'>
             <div
-              className='w-12 h-1 flex-shrink-0'
+              className='w-8 h-0.5 flex-shrink-0'
               style={{ backgroundColor: getSimulationLinkColor('stimulatory') }}
             />
-            <span className='text-sm text-gray-700'>Stimulates</span>
+            <span className='text-xs text-gray-700'>Stimulates</span>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2'>
             <div
-              className='w-12 h-1 flex-shrink-0'
+              className='w-8 h-0.5 flex-shrink-0'
               style={{ backgroundColor: getSimulationLinkColor('inhibitory') }}
             />
-            <span className='text-sm text-gray-700'>Inhibits</span>
+            <span className='text-xs text-gray-700'>Inhibits</span>
           </div>
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-2'>
             <div
-              className='w-12 h-1 flex-shrink-0'
+              className='w-8 h-0.5 flex-shrink-0'
               style={{ backgroundColor: getSimulationLinkColor('regulatory') }}
             />
-            <span className='text-sm text-gray-700'>Regulates</span>
+            <span className='text-xs text-gray-700'>Regulates</span>
           </div>
         </div>
       </div>

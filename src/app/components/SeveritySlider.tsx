@@ -34,7 +34,7 @@ export const SeveritySlider: React.FC<Props> = ({ value, onChange }) => {
             onClick={() =>
               onChange(option.value as 'normal' | 'subclinical' | 'overt')
             }
-            className={`px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+            className={`px py-2 rounded-lg text-xs font-semibold transition-all ${
               value === option.value
                 ? 'ring-2 ring-offset-1'
                 : 'opacity-60 hover:opacity-100'

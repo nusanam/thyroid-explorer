@@ -30,12 +30,22 @@ export const getSimulationLinkColor = (
  * Purple = intermediate effects (cascade)
  * Pink = reproductive outcomes (endpoints)
  */
+/**
+ * Get color for SimulationNode category
+ * Thyroid nodes change color based on severity
+ * Purple = intermediate effects (cascade)
+ * Pink = reproductive outcomes (endpoints)
+ */
 export const getSimulationNodeColor = (
-  category: 'thyroid' | 'intermediate' | 'reproductive'
+  category: 'thyroid' | 'intermediate' | 'reproductive',
+  severity?: 'normal' | 'subclinical' | 'overt'
 ): string => {
   switch (category) {
     case 'thyroid':
-      return '#3b82f6'; // blue-500
+      // Change thyroid node color based on severity
+      if (severity === 'overt') return '#ef4444'; // red-500
+      if (severity === 'subclinical') return '#eab308'; // yellow-500
+      return '#22c55e'; // green-500 (normal/default)
     case 'intermediate':
       return '#8b5cf6'; // purple-500
     case 'reproductive':

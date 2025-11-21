@@ -67,7 +67,7 @@ export const ThyroidExplorer: React.FC = () => {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-purple-50'>
+    <div className='min-h-screen bg-gradient-to-br from-blue-500 to-black'>
       {/* Compact Header */}
       <header className='bg-white border-b border-gray-200 shadow-sm'>
         <div className='max-w-[1800px] mx-auto px-6 py-4'>
@@ -98,7 +98,7 @@ export const ThyroidExplorer: React.FC = () => {
                   );
                   if (scenario) handleScenarioSelect(scenario);
                 }}
-                className='w-full p-3 border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:outline-none'
+                className='w-full p-1 border-2 border-gray-300 rounded-lg text-sm focus:border-blue-400 focus:outline-none'
               >
                 <option value=''>Select a scenario...</option>
                 {scenarios.map((scenario) => (
@@ -140,81 +140,65 @@ export const ThyroidExplorer: React.FC = () => {
           </div>
 
           {/* Main Visualization Area */}
-          <div className='flex-1 min-w-0'>
-            <div className='bg-white rounded-xl shadow-xl p-4'>
-              <NetworkVisualization
-                nodes={nodes}
-                links={links}
-                severity={severity}
-                highlightedPath={highlightedPath}
-                selectedNode={selectedNode}
-                hoveredNode={hoveredNode}
-                onNodeClick={handleNodeClick}
-                onNodeHover={handleNodeHover}
-                width={Math.min(width - 320, 1200)}
-                height={650}
-                isMobile={isMobile}
-              />
-            </div>
-
+          <div className='flex-1 min-w-0 space-y-3'>
             {/* Scenario Details Below - Only Show When Selected */}
             {currentScenario && (
-              <div className='bg-white rounded-xl shadow-lg p-4 mt-4'>
+              <div className='bg-white rounded-lg shadow-lg p-3'>
                 <h2 className='text-xl font-bold text-gray-900 mb-2'>
                   {currentScenario.name}
                 </h2>
 
                 {/* Compact Lab Values */}
-                <div className='grid grid-cols-5 gap-2 mb-4'>
+                <div className='grid grid-cols-5 gap-2 mb-2'>
                   <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[10px] text-blue-600 font-semibold mb-1'>
+                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
                       TSH
                     </div>
                     <div className='text-lg font-bold text-blue-900'>
                       {currentScenario.thyroidValues.tsh}
                     </div>
-                    <div className='text-[9px] text-blue-600'>mIU/L</div>
+                    <div className='text-[11px] text-blue-600'>mIU/L</div>
                   </div>
                   <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[10px] text-blue-600 font-semibold mb-1'>
+                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
                       Free T3
                     </div>
                     <div className='text-lg font-bold text-blue-900'>
                       {currentScenario.thyroidValues.freeT3}
                     </div>
-                    <div className='text-[9px] text-blue-600'>pg/mL</div>
+                    <div className='text-[11px] text-blue-600'>pg/mL</div>
                   </div>
                   <div className='p-2 bg-blue-50 rounded border border-blue-100'>
-                    <div className='text-[10px] text-blue-600 font-semibold mb-1'>
+                    <div className='text-[14px] text-blue-600 font-semibold mb-1'>
                       Free T4
                     </div>
                     <div className='text-lg font-bold text-blue-900'>
                       {currentScenario.thyroidValues.freeT4}
                     </div>
-                    <div className='text-[9px] text-blue-600'>ng/dL</div>
+                    <div className='text-[11px] text-blue-600'>ng/dL</div>
                   </div>
                   <div className='p-2 bg-purple-50 rounded border border-purple-100'>
-                    <div className='text-[10px] text-purple-600 font-semibold mb-1'>
+                    <div className='text-[14px] text-purple-600 font-semibold mb-1'>
                       TPO Ab
                     </div>
                     <div className='text-lg font-bold text-purple-900'>
                       {currentScenario.thyroidValues.tpoAntibodies}
                     </div>
-                    <div className='text-[9px] text-purple-600'>IU/mL</div>
+                    <div className='text-[11px] text-purple-600'>IU/mL</div>
                   </div>
                   <div className='p-2 bg-purple-50 rounded border border-purple-100'>
-                    <div className='text-[10px] text-purple-600 font-semibold mb-1'>
+                    <div className='text-[14px] text-purple-600 font-semibold mb-1'>
                       Tg Ab
                     </div>
                     <div className='text-lg font-bold text-purple-900'>
                       {currentScenario.thyroidValues.tgAntibodies}
                     </div>
-                    <div className='text-[9px] text-purple-600'>IU/mL</div>
+                    <div className='text-[11px] text-purple-600'>IU/mL</div>
                   </div>
                 </div>
 
                 {/* Two Column Layout for Impacts & Notes */}
-                <div className='grid grid-cols-2 gap-4'>
+                <div className='grid grid-cols-2'>
                   <div>
                     <h3 className='font-semibold text-gray-900 mb-2 text-sm'>
                       Reproductive Impacts
@@ -245,6 +229,21 @@ export const ThyroidExplorer: React.FC = () => {
                 </div>
               </div>
             )}
+            <div className='bg-white rounded-xl shadow-xl p-4'>
+              <NetworkVisualization
+                nodes={nodes}
+                links={links}
+                severity={severity}
+                highlightedPath={highlightedPath}
+                selectedNode={selectedNode}
+                hoveredNode={hoveredNode}
+                onNodeClick={handleNodeClick}
+                onNodeHover={handleNodeHover}
+                width={Math.min(width - 320, 1200)}
+                height={650}
+                isMobile={isMobile}
+              />
+            </div>
           </div>
         </div>
       </div>

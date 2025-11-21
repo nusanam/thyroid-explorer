@@ -257,8 +257,8 @@ export const NetworkVisualization: React.FC<Props> = ({
       .append('circle')
       .attr('r', (d) =>
         getSimulationNodeRadius(d, severity, d.id === selectedNode, isMobile)
-      ) // Using helper
-      .attr('fill', (d) => getSimulationNodeColor(d.category)) // Using helper
+      )
+      .attr('fill', (d) => getSimulationNodeColor(d.category, severity)) // Add severity parameter
       .attr('stroke', (d) => (d.id === selectedNode ? '#000' : '#fff'))
       .attr('stroke-width', (d) => (d.id === selectedNode ? 3 : 2))
       .attr('class', 'transition-all duration-300')
@@ -266,7 +266,6 @@ export const NetworkVisualization: React.FC<Props> = ({
         d.id === selectedNode ? 'drop-shadow(0 0 8px rgba(0,0,0,0.3))' : 'none'
       );
 
-    // Node labels
     // Node labels - Position based on node category
     nodeGroups
       .append('text')
@@ -325,18 +324,6 @@ export const NetworkVisualization: React.FC<Props> = ({
       .attr('class', 'transition-all duration-300')
       .text((d) => d.label)
       .style('pointer-events', 'none');
-
-    // Optional: Add node value indicators for selected scenario
-    if (severity !== 'normal') {
-      nodeGroups
-        .filter((d) => d.category === 'thyroid')
-        .append('circle')
-        .attr('r', 8)
-        .attr('cx', 25)
-        .attr('cy', -25)
-        .attr('fill', severity === 'overt' ? '#ef4444' : '#eab308')
-        .attr('class', 'pulse');
-    }
 
     // ==================== ENTRANCE ANIMATIONS ====================
     nodeGroups
