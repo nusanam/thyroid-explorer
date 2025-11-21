@@ -129,7 +129,7 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
       {!isActive && (
         <button
           onClick={startTour}
-          className='fixed top-4 right-4 px-6 py-3 bg-[#ffd89bcc] text-[#8e9047] rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-lg'
+          className='fixed top-4 right-4 px-6 py-3 bg-[#ffd89bcc] text-[#8e9047] rounded-lg font-medium hover:bg-[#4d787ecc] hover:text-white transition-colors shadow-lg'
         >
           Let's Take a Tour
         </button>

@@ -408,7 +408,7 @@ export const NetworkVisualization: React.FC<Props> = ({
             onClick={() =>
               clearPathHighlight(setHighlightedNodes, setHighlightedLinks)
             }
-            className='mt-2 w-full px-3 py-1 text-xs rounded bg-red-100 text-red-700 hover:bg-red-200'
+            className='mt-2 w-full px-3 py-1 text-xs rounded bg-[#ffd89bcc] text-[#8e9047] hover:bg-[#e7c388cc]'
           >
             Clear Highlight
           </button>

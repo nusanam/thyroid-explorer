@@ -25,15 +25,17 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
           ×
         </button>
 
-        <h2 className='text-2xl font-bold mb-2'>{node.label}</h2>
-        <p className='text-gray-600 mb-4'>{node.description}</p>
+        <h2 className='text-2xl font-bold mb-2 text-[#6298a0cc]'>
+          {node.label}
+        </h2>
+        <p className='text-[#6298a0cc] mb-4'>{node.description}</p>
 
         {node.normalRange && (
           <div className='mb-4 p-3 bg-blue-50 rounded'>
-            <div className='text-sm font-medium text-blue-900'>
+            <div className='text-sm font-medium text-[#57868dcc]'>
               Normal Range
             </div>
-            <div className='text-lg'>
+            <div className='text-lg text-[#507a81cc]'>
               {node.normalRange} {node.unit}
             </div>
           </div>
@@ -41,30 +43,36 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
 
         {node.optimalRange && (
           <div className='mb-4 p-3 bg-green-50 rounded'>
-            <div className='text-sm font-medium text-green-900'>
+            <div className='text-sm font-medium text-[#6298a0cc]'>
               Optimal Range
             </div>
-            <div className='text-lg'>{node.optimalRange}</div>
+            <div className='text-lg text-[#507a81cc]'>{node.optimalRange}</div>
           </div>
         )}
 
         <div className='space-y-4'>
           <div>
-            <h3 className='font-semibold text-lg mb-2'>What It Is</h3>
-            <p className='text-gray-700'>{node.educationalContent.whatItIs}</p>
+            <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
+              What It Is
+            </h3>
+            <p className='text-[#8e9047]'>{node.educationalContent.whatItIs}</p>
           </div>
 
           <div>
-            <h3 className='font-semibold text-lg mb-2'>Why It Matters</h3>
-            <p className='text-gray-700'>
+            <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
+              Why It Matters
+            </h3>
+            <p className='text-[#8e9047]'>
               {node.educationalContent.whyItMatters}
             </p>
           </div>
 
           {node.educationalContent.howToOptimize && (
             <div>
-              <h3 className='font-semibold text-lg mb-2'>How to Optimize</h3>
-              <p className='text-gray-700'>
+              <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
+                How to Optimize
+              </h3>
+              <p className='text-[#8e9047]'>
                 {node.educationalContent.howToOptimize}
               </p>
             </div>
