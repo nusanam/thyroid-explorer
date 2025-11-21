@@ -86,31 +86,37 @@ export const ThyroidExplorer: React.FC = () => {
         <div className='flex gap-6'>
           {/* Left Sidebar - Controls */}
           <div className='w-80 flex-shrink-0 space-y-6'>
-            {/* Scenario Selector */}
-            <div className='bg-white rounded-lg shadow-lg p-6'>
-              <h3 className='text-xl font-semibold mb-4 text-gray-900'>
-                Clinical Scenarios
+
+            {/* Clinical Scenarios - Dropdown */}
+            <div className='bg-white rounded-lg shadow-lg p-4'>
+              <h3 className='text-lg font-semibold mb-3 text-gray-900'>
+                Clinical Scenario
               </h3>
-              <div className='space-y-3'>
+              <select
+                value={currentScenario?.id || ''}
+                onChange={(e) => {
+                  const scenario = scenarios.find(
+                    (s) => s.id === e.target.value
+                  );
+                  if (scenario) handleScenarioSelect(scenario);
+                }}
+                className='w-full p-3 border-2 border-gray-300 rounded-lg text-sm focus:border-blue-500 focus:outline-none'
+              >
+                <option value=''>Select a scenario...</option>
                 {scenarios.map((scenario) => (
-                  <button
-                    key={scenario.id}
-                    onClick={() => handleScenarioSelect(scenario)}
-                    className={`w-full p-4 text-left rounded-lg border-2 transition-all ${
-                      currentScenario?.id === scenario.id
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 hover:border-blue-300 bg-white'
-                    }`}
-                  >
-                    <h4 className='font-semibold text-sm text-gray-900 mb-1'>
-                      {scenario.name}
-                    </h4>
-                    <p className='text-xs text-gray-600 leading-relaxed'>
-                      {scenario.description}
-                    </p>
-                  </button>
+                  <option key={scenario.id} value={scenario.id}>
+                    {scenario.name}
+                  </option>
                 ))}
-              </div>
+              </select>
+
+              {currentScenario && (
+                <div className='mt-3 p-3 bg-blue-50 border border-blue-200 rounded-lg'>
+                  <p className='text-xs text-blue-800 leading-relaxed'>
+                    {currentScenario.description}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Severity Slider */}
