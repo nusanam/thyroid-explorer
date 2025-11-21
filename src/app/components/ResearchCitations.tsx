@@ -18,7 +18,18 @@ export const ResearchCitations: React.FC = () => {
           Krassas GE, et al. "Thyroid function and human reproductive health."
           Endocrine Reviews. 2010.
         </li>
-        {/* ... more citations */}
+        <li>
+          Selva DM, et al. "Thyroid hormones act indirectly to increase sex
+          hormone-binding globulin production by liver via hepatocyte nuclear
+          factor-4alpha." Journal of Molecular Endocrinology, 2009.
+        </li>
+        <li>
+          'Coomarasamy A, et al. "A randomized trial of progesterone in women
+          with recurrent miscarriages." New England Journal of Medicine, 2015.
+        </li>
+        <li>
+          'Practice Committee ASRM. "Optimizing natural fertility." Fertility and Sterility, 2017.
+        </li>
       </ol>
     </details>
   );

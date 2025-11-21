@@ -50,7 +50,7 @@ export const links: SimulationLink[] = [
   // ============================================
   {
     source: 'free_t3',
-    target: 'metabolic_rate',
+    target: 'basal_metabolic_rate',
     strength: 'strong',
     type: 'stimulatory',
     description:
@@ -64,7 +64,7 @@ export const links: SimulationLink[] = [
   },
   {
     source: 'free_t3',
-    target: 'basal_temperature',
+    target: 'basal_body_temperature',
     strength: 'strong',
     type: 'stimulatory',
     description:
@@ -77,7 +77,7 @@ export const links: SimulationLink[] = [
   },
   {
     source: 'free_t3',
-    target: 'liver_clearance',
+    target: 'liver_metabolism',
     strength: 'moderate',
     type: 'regulatory',
     description:
@@ -118,7 +118,7 @@ export const links: SimulationLink[] = [
   },
   {
     source: 'free_t4',
-    target: 'metabolic_rate',
+    target: 'basal_metabolic_rate',
     strength: 'moderate',
     type: 'stimulatory',
     description: 'T4 contributes to metabolism after conversion to T3',
@@ -195,7 +195,7 @@ export const links: SimulationLink[] = [
   // METABOLIC RATE CONNECTIONS
   // ============================================
   {
-    source: 'metabolic_rate',
+    source: 'basal_metabolic_rate',
     target: 'egg_quality',
     strength: 'moderate',
     type: 'stimulatory',
@@ -208,7 +208,7 @@ export const links: SimulationLink[] = [
     ],
   },
   {
-    source: 'metabolic_rate',
+    source: 'basal_metabolic_rate',
     target: 'ovarian_function',
     strength: 'moderate',
     type: 'stimulatory',
@@ -224,7 +224,7 @@ export const links: SimulationLink[] = [
   // BASAL TEMPERATURE CONNECTIONS
   // ============================================
   {
-    source: 'basal_temperature',
+    source: 'basal_body_temperature',
     target: 'bbt_pattern',
     strength: 'strong',
     type: 'stimulatory',
@@ -256,7 +256,7 @@ export const links: SimulationLink[] = [
   },
   {
     source: 'progesterone_production',
-    target: 'basal_temperature',
+    target: 'basal_body_temperature',
     strength: 'moderate',
     type: 'stimulatory',
     description: 'Progesterone causes the post-ovulation temperature rise',
@@ -283,7 +283,7 @@ export const links: SimulationLink[] = [
   // LIVER CLEARANCE CONNECTIONS
   // ============================================
   {
-    source: 'liver_clearance',
+    source: 'liver_metabolism',
     target: 'cycle_regularity',
     strength: 'moderate',
     type: 'regulatory',

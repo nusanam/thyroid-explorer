@@ -69,7 +69,7 @@ export const createCurvedPath = (
   source: { x: number; y: number } | undefined,
   target: { x: number; y: number } | undefined
 ): string => {
-  // Safety check
+  // Safety check for undefined nodes
   if (!source || !target) {
     return 'M 0,0';
   }

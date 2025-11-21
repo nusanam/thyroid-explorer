@@ -104,7 +104,7 @@ export const nodes: SimulationNode[] = [
     },
   },
   {
-    id: 'basal_body_temp',
+    id: 'basal_body_temperature',
     label: 'Body Temperature',
     category: 'intermediate',
     description: 'Basal Body Temperature Regulation',
@@ -213,7 +213,7 @@ export const nodes: SimulationNode[] = [
     unit: 'days',
     educationalContent: {
       whatItIs:
-        'Cycle regularity refers to how consistent your cycle length is month-to-month. A regular cycle means ovulation is occurring predictably. Cycles can be regular but long (e.g., consistently 35 days) or irregular with variable length (e.g., 28 days, then 42 days, then 31 days).',
+        'Cycle regularity refers to how consistent a cycle length is month-to-month. A regular cycle means ovulation is occurring predictably. Cycles can be regular but long (e.g., consistently 35 days) or irregular with variable length (e.g., 28 days, then 42 days, then 31 days).',
       whyItMatters:
         "Irregular cycles usually indicate irregular or absent ovulation, making it difficult to time intercourse and predict fertility. Even with regular cycles, if they're very long (>35 days) or short (<24 days), this often signals hormonal imbalance. Hypothyroidism commonly causes longer, irregular cycles due to effects on ovulation and hormone metabolism.",
       howToOptimize:
