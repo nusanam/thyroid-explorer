@@ -74,34 +74,41 @@ export const ThyroidExplorer: React.FC = () => {
     setSelectedNode(nodeId || null);
     setHighlightedPath(path || null);
   };
+
   return (
-    <div className='thyroid-explorer min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 md:p-8'>
+    <div className='min-h-screen bg-gradient-to-br from-blue-50 to-purple-50'>
       {/* Header */}
-      <header className='max-w-7xl mx-auto mb-8'>
-        <h1 className='text-4xl md:text-5xl font-bold text-gray-900 mb-3'>
-          Thyroid-Reproductive Health Connection
-        </h1>
-        <p className='text-lg text-gray-600 max-w-3xl'>
-          Explore how thyroid dysfunction cascades into reproductive health
-          impacts. Click nodes for details, hover to highlight pathways.
-        </p>
+      <header className='bg-white border-b border-gray-200 px-6 py-4'>
+        <div className='max-w-7xl mx-auto'>
+          <h1 className='text-3xl font-bold text-gray-900 mb-2'>
+            Thyroid-Reproductive Health Connection
+          </h1>
+          <p className='text-gray-600'>
+            Explore how thyroid dysfunction cascades into reproductive health
+            impacts. Click nodes for details, hover to highlight pathways.
+          </p>
+        </div>
       </header>
 
       {/* Main Content */}
-      <div className='max-w-7xl mx-auto'>
+      <div className='max-w-7xl mx-auto px-6 py-6'>
         {/* Scenario Selector */}
         <div className='mb-6'>
           <ScenarioSelector onSelect={handleScenarioSelect} />
         </div>
 
         {/* Controls Row */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mb-8'>
-          <SeveritySlider value={severity} onChange={handleSeverityChange} />
-          <CategoryLegend />
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6'>
+          <div className='lg:col-span-2'>
+            <SeveritySlider value={severity} onChange={handleSeverityChange} />
+          </div>
+          <div>
+            <CategoryLegend />
+          </div>
         </div>
 
         {/* Visualization Container */}
-        <div className='bg-white rounded-2xl shadow-xl p-6 mb-8'>
+        <div className='bg-white rounded-xl shadow-lg overflow-hidden mb-6'>
           <NetworkVisualization
             nodes={nodes}
             links={links}
@@ -119,41 +126,49 @@ export const ThyroidExplorer: React.FC = () => {
 
         {/* Current Scenario Info */}
         {currentScenario && (
-          <div className='bg-white rounded-xl shadow-lg p-6 mb-8'>
+          <div className='bg-white rounded-xl shadow-lg p-6 mb-6'>
             <h2 className='text-2xl font-bold text-gray-900 mb-3'>
               {currentScenario.name}
             </h2>
             <p className='text-gray-600 mb-4'>{currentScenario.description}</p>
 
-            <div className='grid grid-cols-2 md:grid-cols-5 gap-4 mb-4'>
-              <div className='p-3 bg-blue-50 rounded'>
-                <div className='text-xs text-blue-600 font-medium'>TSH</div>
+            <div className='grid grid-cols-2 sm:grid-cols-5 gap-4 mb-4'>
+              <div className='p-3 bg-blue-50 rounded-lg'>
+                <div className='text-xs text-blue-600 font-medium mb-1'>
+                  TSH
+                </div>
                 <div className='text-lg font-bold text-blue-900'>
                   {currentScenario.thyroidValues.tsh} mIU/L
                 </div>
               </div>
-              <div className='p-3 bg-blue-50 rounded'>
-                <div className='text-xs text-blue-600 font-medium'>Free T3</div>
+              <div className='p-3 bg-blue-50 rounded-lg'>
+                <div className='text-xs text-blue-600 font-medium mb-1'>
+                  Free T3
+                </div>
                 <div className='text-lg font-bold text-blue-900'>
                   {currentScenario.thyroidValues.freeT3} pg/mL
                 </div>
               </div>
-              <div className='p-3 bg-blue-50 rounded'>
-                <div className='text-xs text-blue-600 font-medium'>Free T4</div>
+              <div className='p-3 bg-blue-50 rounded-lg'>
+                <div className='text-xs text-blue-600 font-medium mb-1'>
+                  Free T4
+                </div>
                 <div className='text-lg font-bold text-blue-900'>
                   {currentScenario.thyroidValues.freeT4} ng/dL
                 </div>
               </div>
-              <div className='p-3 bg-purple-50 rounded'>
-                <div className='text-xs text-purple-600 font-medium'>
+              <div className='p-3 bg-purple-50 rounded-lg'>
+                <div className='text-xs text-purple-600 font-medium mb-1'>
                   TPO Ab
                 </div>
                 <div className='text-lg font-bold text-purple-900'>
                   {currentScenario.thyroidValues.tpoAntibodies} IU/mL
                 </div>
               </div>
-              <div className='p-3 bg-purple-50 rounded'>
-                <div className='text-xs text-purple-600 font-medium'>Tg Ab</div>
+              <div className='p-3 bg-purple-50 rounded-lg'>
+                <div className='text-xs text-purple-600 font-medium mb-1'>
+                  Tg Ab
+                </div>
                 <div className='text-lg font-bold text-purple-900'>
                   {currentScenario.thyroidValues.tgAntibodies} IU/mL
                 </div>
@@ -174,7 +189,7 @@ export const ThyroidExplorer: React.FC = () => {
               </ul>
             </div>
 
-            <div className='p-4 bg-gray-50 rounded'>
+            <div className='p-4 bg-gray-50 rounded-lg'>
               <h3 className='font-semibold text-gray-900 mb-1'>
                 Clinical Notes:
               </h3>
@@ -187,8 +202,8 @@ export const ThyroidExplorer: React.FC = () => {
 
         {/* Research Note */}
         <div className='bg-blue-50 border border-blue-200 rounded-xl p-6'>
-          <h3 className='font-semibold text-blue-900 mb-2'>
-            📚 Research-Backed Visualization
+          <h3 className='font-semibold text-blue-900 mb-2 flex items-center gap-2'>
+            <span>📚</span> Research-Backed Visualization
           </h3>
           <p className='text-blue-800 text-sm'>
             All connections in this visualization are based on peer-reviewed

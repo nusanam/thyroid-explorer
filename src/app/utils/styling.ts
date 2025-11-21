@@ -118,36 +118,33 @@ export const getSimulationLinkWidth = (
 export const getSimulationNodeRadius = (
   SimulationNode: SimulationNode,
   severity: 'normal' | 'subclinical' | 'overt',
-  isMobile?: boolean,
-  isSelected?: boolean
+  isSelected?: boolean,
+  isMobile?: boolean
 ): number => {
-  let baseRadius = 30;
+  let baseRadius = 20; // Reduced from 30
 
-  // Thyroid SimulationNodes grow with severity (they're the source of dysfunction)
+  // Thyroid nodes grow slightly with severity
   if (SimulationNode.category === 'thyroid' && severity) {
     baseRadius = {
-      normal: 30,
-      subclinical: 35,
-      overt: 42,
+      normal: 20,
+      subclinical: 23,
+      overt: 28,
     }[severity];
   }
 
-  // Reproductive outcome SimulationNodes (endpoints) are slightly larger for emphasis
+  // Reproductive outcome nodes are slightly larger for emphasis
   if (SimulationNode.category === 'reproductive') {
-    baseRadius = 32;
+    baseRadius = 22;
   }
 
-  // Selected SimulationNodes are larger
+  // Selected nodes are larger
   if (isSelected) {
-    if (isMobile) {
-      baseRadius *= 1.6;
-    }
-    baseRadius *= 1.2;
+    baseRadius *= 1.3;
   }
 
   // Increase size for mobile (better touch targets)
   if (isMobile) {
-    baseRadius *= 1.3;
+    baseRadius *= 1.2;
   }
 
   return baseRadius;
@@ -161,22 +158,22 @@ export const getSimulationNodeLabelSize = (
   isSelected?: boolean,
   isMobile?: boolean
 ): number => {
-  const baseSize = 14;
+  const baseSize = 12; // Reduced from 14
 
   if (isSelected) {
     if (isMobile) {
-      return baseSize + 3;
+      return baseSize + 2;
     }
-    return baseSize + 2;
+    return baseSize + 1;
   }
 
   if (SimulationNode.category === 'reproductive') {
-    return baseSize + 1; // Slightly larger for outcomes
+    return baseSize; // Same size
   }
 
   // Increase font size for mobile readability
   if (isMobile) {
-    return baseSize + 2;
+    return baseSize + 1;
   }
 
   return baseSize;

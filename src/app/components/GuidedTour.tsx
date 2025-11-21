@@ -73,7 +73,7 @@ const tourSteps: TourStep[] = [
   {
     title: 'Why Comprehensive Testing Matters',
     description:
-      'Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. This is what Function Health provides.',
+      'Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. Doctors won\'t always test these values, so it can be important to see a physician who prioritizes functional / integrative medicine.',
     highlightPath: null,
     highlightNode: null,
     position: { x: 400, y: 150 },

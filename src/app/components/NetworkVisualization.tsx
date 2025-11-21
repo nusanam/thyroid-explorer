@@ -275,24 +275,38 @@ export const NetworkVisualization: React.FC<Props> = ({
     nodeGroups
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr(
-        'dy',
-        (d) =>
-          getSimulationNodeRadius(
-            d,
-            severity,
-            d.id === selectedNode,
-            isMobile
-          ) + 20
-      ) // Position below node
+      .attr('dy', (d) => {
+        const radius = getSimulationNodeRadius(
+          d,
+          severity,
+          d.id === selectedNode,
+          isMobile
+        );
+        return radius + 25; // More space below the circle
+      })
       .attr('font-size', (d) =>
-        getSimulationNodeLabelSize(d, d.id === selectedNode)
-      ) // Using helper
+        getSimulationNodeLabelSize(d, d.id === selectedNode, isMobile)
+      )
       .attr('font-weight', (d) => (d.id === selectedNode ? 700 : 600))
       .attr('fill', '#1f2937')
       .attr('class', 'transition-all duration-300')
       .text((d) => d.label)
-      .style('pointer-events', 'none'); // Don't interfere with node interactions
+      .style('pointer-events', 'none') // don't interfere with node interactions
+      .each(function (d) {
+        // Wrap long text
+        const text = d3.select(this);
+        const words = d.label.split(/\s+/);
+        if (words.length > 2) {
+          text.text('');
+          words.forEach((word, i) => {
+            text
+              .append('tspan')
+              .attr('x', 0)
+              .attr('dy', i === 0 ? 0 : 15)
+              .text(word);
+          });
+        }
+      });
 
     // Optional: Add node value indicators for selected scenario
     if (severity !== 'normal') {

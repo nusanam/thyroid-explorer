@@ -21,8 +21,9 @@ export const calculateLayout = (
     (n) => n.category === 'reproductive'
   );
 
-  const columnWidth = width / 4;
-  const padding = 80; // Padding source top/bottom
+  // Increased column spacing and padding
+  const columnWidth = width / 3.5; // More space between columns
+  const padding = 60; // Padding from top/bottom
 
   // Position thyroid markers (left column)
   const thyroidHeight = height - padding * 2;
@@ -30,7 +31,7 @@ export const calculateLayout = (
 
   thyroidSimulationNodes.forEach((SimulationNode, i) => {
     layout[SimulationNode.id] = {
-      x: columnWidth,
+      x: columnWidth * 0.8,
       y: padding + (i + 1) * thyroidSpacing,
     };
   });
@@ -54,7 +55,7 @@ export const calculateLayout = (
 
   reproductiveSimulationNodes.forEach((SimulationNode, i) => {
     layout[SimulationNode.id] = {
-      x: columnWidth * 3,
+      x: columnWidth * 3.2,
       y: padding + (i + 1) * reproductiveSpacing,
     };
   });
