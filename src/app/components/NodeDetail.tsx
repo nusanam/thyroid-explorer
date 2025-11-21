@@ -20,7 +20,7 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
       >
         <button
           onClick={onClose}
-          className='absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold'
+          className='absolute top-4 right-4 text-gray-400 hover:text-[#6cbfc0] text-2xl font-bold'
         >
           ×
         </button>
@@ -55,14 +55,14 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
             <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
               What It Is
             </h3>
-            <p className='text-[#8e9047]'>{node.educationalContent.whatItIs}</p>
+            <p className='text-[#6cbfc0]'>{node.educationalContent.whatItIs}</p>
           </div>
 
           <div>
             <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
               Why It Matters
             </h3>
-            <p className='text-[#8e9047]'>
+            <p className='text-[#6cbfc0]'>
               {node.educationalContent.whyItMatters}
             </p>
           </div>
@@ -72,7 +72,7 @@ export const NodeDetail: React.FC<Props> = ({ node, onClose }) => {
               <h3 className='font-semibold text-lg mb-2 text-[#6298a0cc]'>
                 How to Optimize
               </h3>
-              <p className='text-[#8e9047]'>
+              <p className='text-[#6cbfc0]'>
                 {node.educationalContent.howToOptimize}
               </p>
             </div>

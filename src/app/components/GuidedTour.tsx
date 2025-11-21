@@ -14,7 +14,7 @@ const tourSteps: TourStep[] = [
     title: 'Welcome to the Thyroid-Reproductive Connection',
     description:
       "This visualization shows how thyroid dysfunction cascades into reproductive health issues. Let's explore the pathways.",
-    position: { x: 400, y: 100 },
+    position: { x: 100, y: 100 },
     highlightPath: null,
     highlightNode: null,
   },
@@ -73,7 +73,7 @@ const tourSteps: TourStep[] = [
   {
     title: 'Why Comprehensive Testing Matters',
     description:
-      'Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. Doctors won\'t always test these values, so it can be important to see a physician who prioritizes functional / integrative medicine.',
+      "Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. Doctors won't always test these values, so it can be important to see a physician who prioritizes functional / integrative medicine.",
     highlightPath: null,
     highlightNode: null,
     position: { x: 400, y: 150 },
@@ -129,7 +129,7 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
       {!isActive && (
         <button
           onClick={startTour}
-          className='fixed top-4 right-4 px-6 py-3 bg-[#ffd89bcc] text-[#8e9047] rounded-lg font-medium hover:bg-[#4d787ecc] hover:text-white transition-colors shadow-lg'
+          className='fixed top-4 right-4 px-6 py-3 bg-[#4d787ecc] text-white rounded-lg font-medium hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
         >
           Let's Take a Tour
         </button>
@@ -152,7 +152,7 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               style={{
-                position: 'fixed',
+                position: 'relative',
                 left: step.position.x,
                 top: step.position.y,
                 zIndex: 50,
@@ -165,16 +165,16 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
                 </h3>
                 <button
                   onClick={endTour}
-                  className='text-gray-400 hover:text-gray-600'
+                  className='text-gray-400 font-semibold hover:text-[#6cbfc0]'
                 >
                   ✕
                 </button>
               </div>
 
-              <p className='text-gray-700 mb-6'>{step.description}</p>
+              <p className='text-[#6cbfc0] mb-6'>{step.description}</p>
 
               <div className='flex items-center justify-between'>
-                <span className='text-sm text-gray-500'>
+                <span className='text-sm text-[#6298a0cc]'>
                   Step {currentStep + 1} of {tourSteps.length}
                 </span>
 
@@ -182,14 +182,14 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
                   {currentStep > 0 && (
                     <button
                       onClick={prevStep}
-                      className='px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition-colors'
+                      className='px-4 py-2 bg-[#4d787ecc] text-white rounded hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
                     >
                       Previous
                     </button>
                   )}
                   <button
                     onClick={nextStep}
-                    className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors'
+                    className='px-4 py-2 bg-[#4d787ecc] text-white rounded hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
                   >
                     {currentStep === tourSteps.length - 1 ? 'Finish' : 'Next'}
                   </button>
