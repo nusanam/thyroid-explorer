@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import type { SimulationLink, SimulationNode } from '../data/types';
 import { getSimulationNodeAriaLabel } from '../utils/accessibility';
 import { getEntranceDelay } from '../utils/animation';
+import { getNodeId } from '../utils/helpers';
 import { calculateLayout, createCurvedPath } from '../utils/layout';
 import { findPathsFromSimulationNode } from '../utils/pathfinder';
 import {
@@ -14,19 +15,20 @@ import {
   getSimulationNodeOpacity,
   getSimulationNodeRadius,
 } from '../utils/styling';
-
+import { hideLinkTooltip, showLinkTooltip } from '../utils/tooltip';
 interface Props {
   nodes: SimulationNode[];
   links: SimulationLink[];
   severity: 'normal' | 'subclinical' | 'overt';
   highlightedPath?: string[];
-  selectedNode?: string | null;
-  hoveredNode?: string | null;
+  selectedNode?: string;
+  hoveredNode?: string;
   onNodeClick: (nodeId: string) => void;
   onNodeHover: (nodeId: string | null) => void;
   width: number;
   height: number;
   isMobile: boolean;
+  scenarios?: string;
 }
 
 export const NetworkVisualization: React.FC<Props> = ({
@@ -40,9 +42,11 @@ export const NetworkVisualization: React.FC<Props> = ({
   onNodeHover,
   width,
   height,
-  isMobile,
+  // isMobile,
+  // scenarios,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!svgRef.current) return;
@@ -51,7 +55,7 @@ export const NetworkVisualization: React.FC<Props> = ({
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    // Calculate layout using helper
+    // Calculate layout ONCE for all nodes - this returns Record<nodeId, {x, y}>
     const layout = calculateLayout(nodes, width, height);
 
     // Create groups for layering (links behind nodes)
@@ -64,8 +68,11 @@ export const NetworkVisualization: React.FC<Props> = ({
       .data(links)
       .join('path')
       .attr('d', (d) => {
-        const source = layout[d.from];
-        const target = layout[d.to];
+        const sourceId = getNodeId(d.source);
+        const targetId = getNodeId(d.target);
+
+        const source = layout[sourceId];
+        const target = layout[targetId];
         return createCurvedPath(source, target); // Using helper
       })
       .attr('stroke', (d) => getSimulationLinkColor(d.type)) // Using helper
@@ -76,7 +83,7 @@ export const NetworkVisualization: React.FC<Props> = ({
       ) // Using helper
       .attr('class', 'connection transition-all duration-300')
       .style('cursor', 'pointer')
-      .on('mouseenter', function (event, d) {
+      .on('mouseenter', function (_event, d) {
         d3.select(this)
           .attr('opacity', 0.9)
           .attr(
@@ -85,7 +92,7 @@ export const NetworkVisualization: React.FC<Props> = ({
           );
 
         // Show tooltip (implement separately)
-        showConnectionTooltip(event, d);
+        showLinkTooltip(_event, d);
       })
       .on('mouseleave', function (_event, d) {
         d3.select(this)
@@ -95,7 +102,7 @@ export const NetworkVisualization: React.FC<Props> = ({
           )
           .attr('stroke-width', getSimulationLinkWidth(d.strength, severity));
 
-        hideConnectionTooltip();
+        hideLinkTooltip();
       });
 
     // Add arrow markers for links
@@ -268,18 +275,15 @@ export const NetworkVisualization: React.FC<Props> = ({
         className='thyroid-network'
         style={{ background: '#fafafa' }}
       />
+      <div
+        ref={tooltipRef}
+        className='absolute pointer-events-none z-50 bg-white rounded-lg shadow-xl border border-gray-200 p-4 max-w-sm'
+        style={{
+          display: 'none',
+          opacity: 0,
+          transition: 'opacity 0.2s ease-in-out',
+        }}
+      />
     </div>
   );
-};
-
-// Tooltip helpers (implement these as separate components or functions)
-
-// const showConnectionTooltip = (event: any, link: SimulationLink) => {
-//   // Implementation for showing tooltip with connection details
-//   console.log('Show tooltip:', link.description);
-// };
-
-// TODO
-const hideConnectionTooltip = () => {
-  // Implementation for hiding tooltip
 };
