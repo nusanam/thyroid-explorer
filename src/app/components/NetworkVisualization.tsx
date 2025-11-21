@@ -7,6 +7,8 @@ import { getNodeId } from '../utils/helpers';
 import { calculateLayout, createCurvedPath } from '../utils/layout';
 import {
   clearPathHighlight,
+  findPathsFromSimulationNode,
+  highlightConnectedElements,
   highlightPathsFromNode,
 } from '../utils/pathfinder';
 import {
@@ -194,22 +196,15 @@ export const NetworkVisualization: React.FC<Props> = ({
         event.stopPropagation();
         onNodeClick(d.id);
 
-        // Toggle path highlighting
-        if (selectedNode === d.id) {
-          // Clicking same node - clear highlight
-          clearPathHighlight(setHighlightedNodes, setHighlightedLinks);
-        } else {
-          // New node - highlight its paths
-          highlightPathsFromNode(
-            d.id,
-            links,
-            nodes,
-            tooltipRef,
-            setHighlightedNodes,
-            setHighlightedLinks,
-            activePathMode
-          );
-        }
+        // Only highlight paths, don't toggle off
+        const paths = findPathsFromSimulationNode(d.id, links);
+        highlightConnectedElements(
+          d.id,
+          paths,
+          setHighlightedNodes,
+          setHighlightedLinks,
+          activePathMode
+        );
       })
       .on('mouseenter', function (event, d) {
         // Only show tooltip, don't trigger path highlighting
