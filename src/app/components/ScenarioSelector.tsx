@@ -17,7 +17,7 @@ export const ScenarioSelector: React.FC<{
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <h4 className='font-semibold text-gray-900 mb-1'>
+            <h4 className='font-semibold text-[#6298a0cc] mb-1'>
               {scenario.name}
             </h4>
             <p className='text-sm text-gray-600'>{scenario.description}</p>

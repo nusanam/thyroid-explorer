@@ -67,11 +67,11 @@ export const ThyroidExplorer: React.FC = () => {
   };
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-500 to-black'>
+    <div className='min-h-screen'>
       {/* Compact Header */}
-      <header className='bg-white border-b border-gray-200 shadow-sm'>
+      <header className='border-b border-gray-200 shadow-sm'>
         <div className='max-w-[1800px] mx-auto px-6 py-4'>
-          <h1 className='text-3xl font-bold text-gray-900 mb-1'>
+          <h1 className='text-3xl font-bold text-[#6298a0cc] mb-1'>
             Thyroid-Reproductive Health Connection
           </h1>
           <p className='text-sm text-gray-600'>
@@ -87,7 +87,7 @@ export const ThyroidExplorer: React.FC = () => {
           <div className='w-64 flex-shrink-0 space-y-4'>
             {/* Clinical Scenarios Dropdown */}
             <div className='bg-white rounded-lg shadow-lg p-4'>
-              <h3 className='text-lg font-semibold mb-3 text-gray-900'>
+              <h3 className='text-lg font-semibold mb-3 text-[#6298a0cc]'>
                 Clinical Scenario
               </h3>
               <select
@@ -98,7 +98,7 @@ export const ThyroidExplorer: React.FC = () => {
                   );
                   if (scenario) handleScenarioSelect(scenario);
                 }}
-                className='w-full p-1 border-2 border-gray-300 rounded-lg text-sm focus:border-blue-400 focus:outline-none'
+                className='w-full p-1 border-2 border-gray-300 rounded-lg text-[#6298a0cc] text-sm focus:border-[#6298a0cc] focus:outline-none'
               >
                 <option value=''>Select a scenario...</option>
                 {scenarios.map((scenario) => (
@@ -128,13 +128,15 @@ export const ThyroidExplorer: React.FC = () => {
               <CategoryLegend />
             </div>
             {/* Research Note */}
-            <div className='bg-blue-50 border-2 border-blue-200 rounded-lg p-3'>
-              <p className='text-xs text-blue-800'>
+            <div className='bg-[#ebf6f8] rounded-lg p-3'>
+              <p className='text-xs text-[#44676ccc]'>
                 <span className='font-semibold'>📚</span> All connections
                 peer-reviewed.
               </p>
             </div>
-            Copyright © 2025 Ruth Anam.
+            <p className='text-xs text-[#80a4a9cc]'>
+              Copyright © 2025 Ruth Anam
+            </p>
           </div>
 
           {/* Main Visualization Area */}
@@ -142,7 +144,7 @@ export const ThyroidExplorer: React.FC = () => {
             {/* Scenario Details Below - Only Show When Selected */}
             {currentScenario && (
               <div className='bg-white rounded-lg shadow-lg p-3'>
-                <h2 className='text-xl font-bold text-gray-900 mb-2'>
+                <h2 className='text-xl font-bold text-[#6298a0cc] mb-2'>
                   {currentScenario.name}
                 </h2>
 
@@ -198,7 +200,7 @@ export const ThyroidExplorer: React.FC = () => {
                 {/* Two Column Layout for Impacts & Notes */}
                 <div className='grid grid-cols-2'>
                   <div>
-                    <h3 className='font-semibold text-gray-900 mb-2 text-sm'>
+                    <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
                       Reproductive Impacts
                     </h3>
                     <ul className='space-y-1'>
@@ -217,7 +219,7 @@ export const ThyroidExplorer: React.FC = () => {
                   </div>
 
                   <div className='p-3 bg-gray-50 rounded border border-gray-200'>
-                    <h3 className='font-semibold text-gray-900 mb-2 text-sm'>
+                    <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
                       Clinical Notes
                     </h3>
                     <p className='text-xs text-gray-700 leading-relaxed'>

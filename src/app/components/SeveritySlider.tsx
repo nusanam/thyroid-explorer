@@ -24,7 +24,7 @@ export const SeveritySlider: React.FC<Props> = ({ value, onChange }) => {
 
   return (
     <div>
-      <h3 className='text-lg font-semibold mb-3 text-gray-900'>
+      <h3 className='text-lg font-semibold mb-3 text-[#6298a0cc]'>
         Thyroid Status
       </h3>
       <div className='grid grid-cols-3 gap-2'>
