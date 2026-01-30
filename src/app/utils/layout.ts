@@ -5,21 +5,39 @@ export const calculateVerticalArcLayout = (
 ): Record<string, { x: number; y: number }> => {
   const layout: Record<string, { x: number; y: number }> = {};
 
-  const sortedNodes = [
-    ...nodes.filter((n) => n.category === 'thyroid'),
-    ...nodes.filter((n) => n.category === 'intermediate'),
-    ...nodes.filter((n) => n.category === 'reproductive'),
-  ];
+  const thyroidNodes = nodes.filter((n) => n.category === 'thyroid');
+  const intermediateNodes = nodes.filter((n) => n.category === 'intermediate');
+  const reproductiveNodes = nodes.filter((n) => n.category === 'reproductive');
 
   const x = 200;
   const marginTop = 40;
-  const step = 25; // Fixed spacing between nodes (Observable uses 14)
+  const withinCategoryStep = 16; // Spacing within same category
+  const betweenCategoryGap = 22; // Extra gap between categories
 
-  sortedNodes.forEach((node, i) => {
-    layout[node.id] = {
-      x: x,
-      y: marginTop + i * step, // Fixed step instead of proportional
-    };
+  let currentY = marginTop;
+
+  // Position thyroid nodes
+  thyroidNodes.forEach((node) => {
+    layout[node.id] = { x, y: currentY };
+    currentY += withinCategoryStep;
+  });
+
+  // Add extra gap before intermediate nodes
+  currentY += betweenCategoryGap - withinCategoryStep;
+
+  // Position intermediate nodes
+  intermediateNodes.forEach((node) => {
+    layout[node.id] = { x, y: currentY };
+    currentY += withinCategoryStep;
+  });
+
+  // Add extra gap before reproductive nodes
+  currentY += betweenCategoryGap - withinCategoryStep;
+
+  // Position reproductive nodes
+  reproductiveNodes.forEach((node) => {
+    layout[node.id] = { x, y: currentY };
+    currentY += withinCategoryStep;
   });
 
   return layout;
@@ -41,4 +59,31 @@ export const createVerticalArcPath = (
 
   // SVG Arc: A rx ry x-axis-rotation large-arc-flag sweep-flag x y
   return `M ${source.x},${source.y} A ${radius},${radius} 0 0,${sweep} ${target.x},${target.y}`;
+};
+
+export const calculateVisualizationHeight = (
+  nodes: SimulationNode[],
+): number => {
+  const thyroidCount = nodes.filter((n) => n.category === 'thyroid').length;
+  const intermediateCount = nodes.filter(
+    (n) => n.category === 'intermediate',
+  ).length;
+  const reproductiveCount = nodes.filter(
+    (n) => n.category === 'reproductive',
+  ).length;
+
+  const withinCategoryStep = 18;
+  const betweenCategoryGap = 20;
+  const marginTop = 40;
+  const marginBottom = 40;
+
+  return (
+    marginTop +
+    (thyroidCount - 1) * withinCategoryStep +
+    betweenCategoryGap +
+    (intermediateCount - 1) * withinCategoryStep +
+    betweenCategoryGap +
+    (reproductiveCount - 1) * withinCategoryStep +
+    marginBottom
+  );
 };

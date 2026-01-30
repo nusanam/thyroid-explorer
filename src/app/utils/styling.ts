@@ -26,26 +26,28 @@ export const getSimulationLinkColor = (
 
 /**
  * Get color for SimulationNode category
- * Blue = thyroid markers (source)
- * Purple = intermediate effects (cascade)
- * Pink = reproductive outcomes (endpoints)
- */
-/**
- * Get color for SimulationNode category
  * Thyroid nodes change color based on severity
  * Purple = intermediate effects (cascade)
  * Pink = reproductive outcomes (endpoints)
  */
 export const getSimulationNodeColor = (
   category: 'thyroid' | 'intermediate' | 'reproductive',
-  severity?: 'normal' | 'subclinical' | 'overt'
+  severity?: 'normal' | 'subclinical' | 'overt',
 ): string => {
+  // Thyroid nodes change color based on severity
+  if (category === 'thyroid') {
+    if (severity === 'normal') {
+      return '#22c55e'; // green-500
+    } else if (severity === 'subclinical') {
+      return '#eab308'; // yellow-500
+    } else if (severity === 'overt') {
+      return '#ef4444'; // red-500
+    }
+    return '#3b82f6'; // blue-500 (default if no severity)
+  }
+
+  // Other categories stay the same
   switch (category) {
-    case 'thyroid':
-      // Change thyroid node color based on severity
-      if (severity === 'overt') return '#ef4444'; // red-500
-      if (severity === 'subclinical') return '#eab308'; // yellow-500
-      return '#22c55e'; // green-500 (normal/default)
     case 'intermediate':
       return '#8b5cf6'; // purple-500
     case 'reproductive':
@@ -103,9 +105,9 @@ export const getSimulationLinkWidth = (
   isMobile?: boolean
 ): number => {
   const baseWidth = {
-    strong: 3,
-    moderate: 2,
-    weak: 1,
+    strong: 2,
+    moderate: 1.25,
+    weak: 0.5,
   }[strength];
 
   // Amplify SimulationLink width based on thyroid severity
@@ -131,20 +133,20 @@ export const getSimulationNodeRadius = (
   isSelected?: boolean,
   isMobile?: boolean
 ): number => {
-  let baseRadius = 10;
+  let baseRadius = 5;
 
   // Rest of your logic, but with smaller base sizes
   if (node.category === 'thyroid' && severity) {
     baseRadius = {
-      normal: 10,
-      subclinical: 15,
-      overt: 20,
+      normal: 5,
+      subclinical: 8,
+      overt: 11,
     }[severity];
   }
 
   // Reproductive outcome nodes are slightly larger for emphasis
   if (node.category === 'reproductive') {
-    baseRadius = 10;
+    baseRadius = 5;
   }
 
   // Selected nodes are larger

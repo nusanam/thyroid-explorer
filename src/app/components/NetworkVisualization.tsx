@@ -155,6 +155,28 @@ export const NetworkVisualization: React.FC<Props> = ({
         onNodeHover(null);
       });
 
+    // Add large invisible hit areas for easier interaction
+    nodeGroups
+      .append('rect')
+      .attr('fill', 'none')
+      .attr('width', 250) // Wide hit area (covers label + node + some space)
+      .attr('height', 18) // Match your withinCategoryStep
+      .attr('x', -220) // Start from far left (covers all the label text)
+      .attr('y', -9) // Center vertically on the node (half of height)
+      .style('pointer-events', 'all')
+      .style('cursor', 'pointer');
+
+    // ADD INVISIBLE HIT AREAS HERE - RIGHT AFTER nodeGroups CREATION
+    nodeGroups
+      .append('rect')
+      .attr('fill', 'none')
+      .attr('width', 250)
+      .attr('height', 18)
+      .attr('x', -220)
+      .attr('y', -9)
+      .style('pointer-events', 'all')
+      .style('cursor', 'pointer');
+
     nodeGroups
       .append('circle')
       .attr('r', (d) => {
@@ -167,23 +189,24 @@ export const NetworkVisualization: React.FC<Props> = ({
           isMobile,
         );
       })
-      .attr('fill', (d) => getSimulationNodeColor(d.category))
+      .attr('fill', (d) => getSimulationNodeColor(d.category, severity))
       .attr('stroke', '#fff')
       .attr('stroke-width', 2)
       .attr('opacity', (d) => getNodeOpacity(d))
-      .attr('class', 'transition-all duration-300');
+      .attr('class', 'transition-all duration-300')
+      .style('pointer-events', 'none');
 
     // Node labels - RIGHT-JUSTIFIED with more space
     nodeGroups
       .append('text')
       .attr('text-anchor', 'end')
-      .attr('x', -40) // CHANGED: More space from circle (was -15)
+      .attr('x', -15)
       .attr('dy', '0.35em')
       .attr('font-size', (d) =>
         getSimulationNodeLabelSize(d, d.id === selectedNode, isMobile),
       )
       .attr('font-weight', (d) => (d.id === selectedNode ? 700 : 600))
-      .attr('fill', '#1f2937')
+      .attr('fill', (d) => getSimulationNodeColor(d.category, severity)) // CHANGED: match node color with severity
       .attr('opacity', (d) => getNodeOpacity(d))
       .attr('class', 'transition-all duration-300')
       .text((d) => d.label)

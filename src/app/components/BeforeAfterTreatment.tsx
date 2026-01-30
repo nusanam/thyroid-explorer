@@ -1,7 +1,10 @@
 import React from 'react';
+import { nodes } from '../data/nodes';
 import { NetworkVisualization } from './NetworkVisualization';
+import { calculateVisualizationHeight } from '../utils/layout';
 
 export const BeforeAfterComparison: React.FC = () => {
+  const vizHeight = calculateVisualizationHeight(nodes);
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
       <div>
@@ -16,7 +19,7 @@ export const BeforeAfterComparison: React.FC = () => {
           onNodeClick={() => {}}
           onNodeHover={() => {}}
           width={600}
-          height={600}
+          height={vizHeight}
           isMobile={false}
         />
         <div className='mt-4 p-4 bg-red-50 rounded'>
@@ -40,7 +43,7 @@ export const BeforeAfterComparison: React.FC = () => {
           onNodeClick={() => {}}
           onNodeHover={() => {}}
           width={600}
-          height={600}
+          height={vizHeight}
           isMobile={false}
         />
         <div className='mt-4 p-4 bg-green-50 rounded'>

@@ -9,6 +9,7 @@ import { GuidedTour } from './GuidedTour';
 import { NetworkVisualization } from './NetworkVisualization';
 import { NodeDetail } from './NodeDetail';
 import { SeveritySlider } from './SeveritySlider';
+import { calculateVisualizationHeight } from '../utils/layout';
 
 export const ThyroidExplorer: React.FC = () => {
   // State management
@@ -22,6 +23,7 @@ export const ThyroidExplorer: React.FC = () => {
 
   // Get responsive dimensions
   const { width, isMobile } = useResponsiveDimensions();
+  const vizHeight = calculateVisualizationHeight(nodes);
 
   // Get selected node object
   const selectedNodeData = selectedNode
@@ -256,7 +258,7 @@ export const ThyroidExplorer: React.FC = () => {
                 hoveredNode={hoveredNode}
                 onNodeClick={handleNodeClick}
                 onNodeHover={handleNodeHover}
-                height={600}
+                height={vizHeight}
                 width={width}
                 isMobile={isMobile}
               />
