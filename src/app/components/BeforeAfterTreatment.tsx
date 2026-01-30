@@ -1,6 +1,5 @@
 import React from 'react';
 import { NetworkVisualization } from './NetworkVisualization';
-import { scenarios } from '../data/scenarios';
 
 export const BeforeAfterComparison: React.FC = () => {
   return (
@@ -19,9 +18,6 @@ export const BeforeAfterComparison: React.FC = () => {
           width={600}
           height={600}
           isMobile={false}
-          scenarios={
-            scenarios.find((s) => s.id === 'hashimotos-uncontrolled')?.id
-          }
         />
         <div className='mt-4 p-4 bg-red-50 rounded'>
           <p className='text-sm text-red-900'>
@@ -46,9 +42,6 @@ export const BeforeAfterComparison: React.FC = () => {
           width={600}
           height={600}
           isMobile={false}
-          scenarios={
-            scenarios.find((s) => s.id === 'hashimotos-controlled')?.id
-          }
         />
         <div className='mt-4 p-4 bg-green-50 rounded'>
           <p className='text-sm text-green-900'>
