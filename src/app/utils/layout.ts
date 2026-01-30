@@ -1,100 +1,46 @@
 import type { SimulationNode } from '../data/types';
 
-// LAYOUT HELPERS
-
-/**
- * Calculate SimulationNode positions in a three-column layout
- */
-export const calculateLayout = (
-  SimulationNodes: SimulationNode[],
-  width: number,
-  height: number
+export const calculateVerticalArcLayout = (
+  nodes: SimulationNode[],
+  height: number,
 ): Record<string, { x: number; y: number }> => {
   const layout: Record<string, { x: number; y: number }> = {};
 
-  const thyroidSimulationNodes = SimulationNodes.filter(
-    (n) => n.category === 'thyroid'
-  );
-  const intermediateSimulationNodes = SimulationNodes.filter(
-    (n) => n.category === 'intermediate'
-  );
-  const reproductiveSimulationNodes = SimulationNodes.filter(
-    (n) => n.category === 'reproductive'
-  );
+  // Sort nodes by category to maintain flow
+  const sortedNodes = [
+    ...nodes.filter((n) => n.category === 'thyroid'),
+    ...nodes.filter((n) => n.category === 'intermediate'),
+    ...nodes.filter((n) => n.category === 'reproductive'),
+  ];
 
-  // Increased column spacing and padding
-  const columnWidth = width / 3.5; // More space between columns
-  const padding = 60; // Padding from top/bottom
+  // All nodes on a vertical line on the left
+  const x = 200; // Left margin with space for labels
+  const padding = 60;
+  const availableHeight = height - padding * 2;
+  const spacing = availableHeight / (sortedNodes.length - 1);
 
-  // Position thyroid markers (left column)
-  const thyroidHeight = height - padding * 2;
-  const thyroidSpacing = thyroidHeight / (thyroidSimulationNodes.length + 1);
-
-  thyroidSimulationNodes.forEach((SimulationNode, i) => {
-    layout[SimulationNode.id] = {
-      x: columnWidth * 0.8,
-      y: padding + (i + 1) * thyroidSpacing,
-    };
-  });
-
-  // Position intermediate effects (middle column)
-  const intermediateHeight = height - padding * 2;
-  const intermediateSpacing =
-    intermediateHeight / (intermediateSimulationNodes.length + 1);
-
-  intermediateSimulationNodes.forEach((SimulationNode, i) => {
-    layout[SimulationNode.id] = {
-      x: columnWidth * 2,
-      y: padding + (i + 1) * intermediateSpacing,
-    };
-  });
-
-  // Position reproductive outcomes (right column)
-  const reproductiveHeight = height - padding * 2;
-  const reproductiveSpacing =
-    reproductiveHeight / (reproductiveSimulationNodes.length + 1);
-
-  reproductiveSimulationNodes.forEach((SimulationNode, i) => {
-    layout[SimulationNode.id] = {
-      x: columnWidth * 3.2,
-      y: padding + (i + 1) * reproductiveSpacing,
+  sortedNodes.forEach((node, i) => {
+    layout[node.id] = {
+      x: x,
+      y: padding + i * spacing,
     };
   });
 
   return layout;
 };
 
-/**
- * Create a curved path between two points (for SimulationLinks)
- */
-export const createCurvedPath = (
-  source: { x: number; y: number } | undefined,
-  target: { x: number; y: number } | undefined
-): string => {
-  // Safety check for undefined nodes
-  if (!source || !target) {
-    return 'M 0,0';
-  }
-
-  const midX = (source.x + target.x) / 2;
-
-  // Use quadratic bezier curve for smooth link
-  return `M ${source.x},${source.y} Q ${midX},${source.y} ${midX},${
-    (source.y + target.y) / 2
-  } T ${target.x},${target.y}`;
-};
-
-/**
- * Create a more dramatic curved path (for emphasis)
- */
-export const createDramaticCurvedPath = (
+export const createVerticalArcPath = (
   source: { x: number; y: number },
-  target: { x: number; y: number }
+  target: { x: number; y: number },
 ): string => {
-  const dx = target.x - source.x;
   const dy = target.y - source.y;
-  const dr = Math.sqrt(dx * dx + dy * dy);
 
-  // Create arc
-  return `M ${source.x},${source.y} A ${dr},${dr} 0 0,1 ${target.x},${target.y}`;
+  // Control point that extends to the RIGHT
+  // The further apart vertically, the wider the arc
+  const arcWidth = Math.abs(dy) * 0.5; // Arc extends right based on vertical distance
+  const controlX = source.x + arcWidth; // Extend RIGHT from the vertical line
+  const controlY = source.y + dy / 2; // Halfway between source and target vertically
+
+  // Quadratic bezier curve
+  return `M ${source.x},${source.y} Q ${controlX},${controlY} ${target.x},${target.y}`;
 };

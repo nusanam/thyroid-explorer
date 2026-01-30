@@ -13,7 +13,7 @@ import { SeveritySlider } from './SeveritySlider';
 export const ThyroidExplorer: React.FC = () => {
   // State management
   const [severity, setSeverity] = useState<'normal' | 'subclinical' | 'overt'>(
-    'subclinical'
+    'subclinical',
   );
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
@@ -38,7 +38,7 @@ export const ThyroidExplorer: React.FC = () => {
   };
 
   const handleSeverityChange = (
-    newSeverity: 'normal' | 'subclinical' | 'overt'
+    newSeverity: 'normal' | 'subclinical' | 'overt',
   ) => {
     setSeverity(newSeverity);
   };
@@ -60,7 +60,7 @@ export const ThyroidExplorer: React.FC = () => {
 
   const handleTourHighlight = (
     nodeId: string | null,
-    path: string[] | null
+    path: string[] | null,
   ) => {
     setSelectedNode(nodeId || null);
     setHighlightedPath(path || null);
@@ -94,11 +94,11 @@ export const ThyroidExplorer: React.FC = () => {
                 value={currentScenario?.id || ''}
                 onChange={(e) => {
                   const scenario = scenarios.find(
-                    (s) => s.id === e.target.value
+                    (s) => s.id === e.target.value,
                   );
                   if (scenario) handleScenarioSelect(scenario);
                 }}
-                className='w-full p-1 border-2 border-gray-300 rounded-lg text-[#8e9047] text-sm focus:border-[#6298a0cc] focus:outline-none'
+                className='w-full p-1 border-2 border-gray-300 rounded-lg text-[#6298a0cc] text-sm focus:border-[#6298a0cc] focus:outline-none'
               >
                 <option value=''>Select a scenario...</option>
                 {scenarios.map((scenario) => (
@@ -109,7 +109,7 @@ export const ThyroidExplorer: React.FC = () => {
               </select>
 
               {currentScenario && (
-                <div className='mt-3 p-3 bg-[#dcf0f0cc] border border-blue-200 rounded-lg'>
+                <div className='mt-3 p-3 bg-[#dcf0f0cc] rounded-lg'>
                   <p className='text-xs text-[#44676ccc] leading-relaxed'>
                     {currentScenario.description}
                   </p>
@@ -198,8 +198,17 @@ export const ThyroidExplorer: React.FC = () => {
                 </div>
 
                 {/* Two Column Layout for Impacts & Notes */}
-                <div className='grid grid-cols-2'>
-                  <div>
+                <div style={{ display: 'flex' }}>
+                  <div
+                    className='p-3 bg-[#edf6f6cc] rounded'
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyItems: 'flex-start',
+                      alignItems: 'flex-start',
+                      flexGrow: '2',
+                    }}
+                  >
                     <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
                       Reproductive Impacts
                     </h3>
@@ -208,21 +217,29 @@ export const ThyroidExplorer: React.FC = () => {
                         (impact, idx) => (
                           <li
                             key={idx}
-                            className='text-xs text-[#8e9047] flex items-start'
+                            className='text-xs text-[#44676ccc] flex'
                           >
-                            <span className='text-pink-500 mr-2'>•</span>
+                            <span className='text-[#54aea2] mr-2'>•</span>
                             <span>{impact}</span>
                           </li>
-                        )
+                        ),
                       )}
                     </ul>
                   </div>
 
-                  <div className='p-3 bg-gray-50 rounded border border-gray-200'>
+                  <div
+                    className='p-3 bg-[#edf6f6cc] rounded'
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyItems: 'flex-start',
+                      alignItems: 'start',
+                    }}
+                  >
                     <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
                       Clinical Notes
                     </h3>
-                    <p className='text-xs text-[#8e9047] leading-relaxed'>
+                    <p className='text-xs text-[#44676ccc] leading-relaxed'>
                       {currentScenario.clinicalNotes}
                     </p>
                   </div>
@@ -239,8 +256,8 @@ export const ThyroidExplorer: React.FC = () => {
                 hoveredNode={hoveredNode}
                 onNodeClick={handleNodeClick}
                 onNodeHover={handleNodeHover}
-                width={Math.min(width - 320, 1200)}
-                height={650}
+                height={1200}
+                width={width}
                 isMobile={isMobile}
               />
             </div>
