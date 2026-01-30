@@ -25,7 +25,7 @@ export const BeforeAfterComparison: React.FC = () => {
           width={600}
           height={vizHeight}
           isMobile={false}
-          svgRef={beforeSvgRef} // ADD THIS
+          svgRef={beforeSvgRef}
         />
         <div className='mt-4 p-4 bg-red-50 rounded'>
           <p className='text-sm text-red-900'>
@@ -50,7 +50,7 @@ export const BeforeAfterComparison: React.FC = () => {
           width={600}
           height={vizHeight}
           isMobile={false}
-          svgRef={afterSvgRef} // ADD THIS
+          svgRef={afterSvgRef}
         />
         <div className='mt-4 p-4 bg-green-50 rounded'>
           <p className='text-sm text-green-900'>

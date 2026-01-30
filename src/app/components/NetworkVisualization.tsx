@@ -163,13 +163,13 @@ export const NetworkVisualization: React.FC<Props> = ({
       .append('rect')
       .attr('fill', 'none')
       .attr('width', 250) // Wide hit area (covers label + node + some space)
-      .attr('height', 18) // Match your withinCategoryStep
+      .attr('height', 18) // Match withinCategoryStep
       .attr('x', -220) // Start from far left (covers all the label text)
       .attr('y', -9) // Center vertically on the node (half of height)
       .style('pointer-events', 'all')
       .style('cursor', 'pointer');
 
-    // ADD INVISIBLE HIT AREAS HERE - RIGHT AFTER nodeGroups CREATION
+    // Add invisible hit areas here - right after nodeGroups creation
     nodeGroups
       .append('rect')
       .attr('fill', 'none')

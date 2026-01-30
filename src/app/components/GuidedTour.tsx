@@ -113,7 +113,7 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight, svgRef }) => {
     calculatePositions();
 
     const handleResize = () => {
-      setWindowWidth(window.innerWidth); // ADD THIS
+      setWindowWidth(window.innerWidth);
       if (isActive) {
         calculatePositions();
       }
