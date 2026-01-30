@@ -10,7 +10,7 @@ export const calculateVerticalArcLayout = (
   const reproductiveNodes = nodes.filter((n) => n.category === 'reproductive');
 
   const x = 200;
-  const marginTop = 40;
+  const marginTop = 15;
   const withinCategoryStep = 16; // Spacing within same category
   const betweenCategoryGap = 22; // Extra gap between categories
 
@@ -74,8 +74,8 @@ export const calculateVisualizationHeight = (
 
   const withinCategoryStep = 18;
   const betweenCategoryGap = 20;
-  const marginTop = 25;
-  const marginBottom = 25;
+  const marginTop = 15;
+  const marginBottom = 10;
 
   return (
     marginTop +

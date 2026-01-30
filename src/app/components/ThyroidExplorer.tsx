@@ -78,9 +78,9 @@ export const ThyroidExplorer: React.FC = () => {
           <h1 className='text-3xl font-bold text-[#6298a0cc] mb-1'>
             Thyroid-Reproductive Health Connection
           </h1>
-          <p className='text-sm text-[#8e9047]'>
+          <span className='text-sm text-[#6b9ba3]'>
             Click nodes for details • Hover to highlight pathways
-          </p>
+          </span>
         </div>
       </header>
 
