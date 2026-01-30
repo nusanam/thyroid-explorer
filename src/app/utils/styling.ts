@@ -129,20 +129,10 @@ export const getSimulationLinkWidth = (
  */
 export const getSimulationNodeRadius = (
   node: SimulationNode,
-  severity: 'normal' | 'subclinical' | 'overt',
   isSelected?: boolean,
   isMobile?: boolean
 ): number => {
   let baseRadius = 5;
-
-  // Rest of your logic, but with smaller base sizes
-  if (node.category === 'thyroid' && severity) {
-    baseRadius = {
-      normal: 5,
-      subclinical: 8,
-      overt: 11,
-    }[severity];
-  }
 
   // Reproductive outcome nodes are slightly larger for emphasis
   if (node.category === 'reproductive') {

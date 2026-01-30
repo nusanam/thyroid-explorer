@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { links } from '../data/links';
 import { nodes } from '../data/nodes';
 import { scenarios } from '../data/scenarios';
@@ -20,6 +20,8 @@ export const ThyroidExplorer: React.FC = () => {
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [highlightedPath, setHighlightedPath] = useState<string[] | null>(null);
   const [currentScenario, setCurrentScenario] = useState<Scenario | null>(null);
+
+  const svgRef = useRef<SVGSVGElement>(null);
 
   // Get responsive dimensions
   const { width, isMobile } = useResponsiveDimensions();
@@ -262,6 +264,7 @@ export const ThyroidExplorer: React.FC = () => {
                 height={vizHeight}
                 width={width}
                 isMobile={isMobile}
+                svgRef={svgRef}
               />
             </div>
           </div>
@@ -277,7 +280,11 @@ export const ThyroidExplorer: React.FC = () => {
       )}
 
       {/* Guided Tour */}
-      <GuidedTour onHighlight={handleTourHighlight} />
+      <GuidedTour
+        onHighlight={handleTourHighlight}
+        svgRef={svgRef}
+        nodes={nodes}
+      />
     </div>
   );
 };

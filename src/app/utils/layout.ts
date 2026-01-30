@@ -74,8 +74,8 @@ export const calculateVisualizationHeight = (
 
   const withinCategoryStep = 18;
   const betweenCategoryGap = 20;
-  const marginTop = 40;
-  const marginBottom = 40;
+  const marginTop = 25;
+  const marginBottom = 25;
 
   return (
     marginTop +

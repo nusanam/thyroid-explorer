@@ -26,6 +26,7 @@ interface Props {
   width: number;
   height: number;
   isMobile: boolean;
+  svgRef?: React.RefObject<SVGSVGElement | null>;
 }
 
 export const NetworkVisualization: React.FC<Props> = ({
@@ -40,8 +41,10 @@ export const NetworkVisualization: React.FC<Props> = ({
   width,
   height,
   isMobile,
+  svgRef: externalSvgRef,
 }) => {
-  const svgRef = useRef<SVGSVGElement>(null);
+  const internalSvgRef = useRef<SVGSVGElement>(null);
+  const svgRef = externalSvgRef || internalSvgRef; // Use external ref if provided
 
   const layout = useMemo(() => {
     return calculateVerticalArcLayout(nodes);
@@ -182,12 +185,7 @@ export const NetworkVisualization: React.FC<Props> = ({
       .attr('r', (d) => {
         const isActive = d.id === selectedNode || d.id === hoveredNode;
         const isInPath = highlightedPath?.includes(d.id);
-        return getSimulationNodeRadius(
-          d,
-          severity,
-          isActive || !!isInPath,
-          isMobile,
-        );
+        return getSimulationNodeRadius(d, isActive || !!isInPath);
       })
       .attr('fill', (d) => getSimulationNodeColor(d.category, severity))
       .attr('stroke', '#fff')
@@ -224,6 +222,7 @@ export const NetworkVisualization: React.FC<Props> = ({
     onNodeHover,
     getLinkOpacity,
     getNodeOpacity,
+    svgRef,
   ]);
 
   return (

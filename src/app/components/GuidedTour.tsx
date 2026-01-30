@@ -1,12 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import type { SimulationNode } from '../data/types';
 
 interface TourStep {
   title: string;
   description: string;
   highlightNode: string | null;
   highlightPath: string[] | null;
-  position: { x: number; y: number };
+  nodeIndex?: number; // Which node to position near
 }
 
 const tourSteps: TourStep[] = [
@@ -14,7 +15,6 @@ const tourSteps: TourStep[] = [
     title: 'Welcome to the Thyroid-Reproductive Connection',
     description:
       "This visualization shows how thyroid dysfunction cascades into reproductive health issues. Let's explore the pathways.",
-    position: { x: 100, y: 100 },
     highlightPath: null,
     highlightNode: null,
   },
@@ -24,31 +24,31 @@ const tourSteps: TourStep[] = [
       'TSH (Thyroid Stimulating Hormone) is released by your pituitary. When elevated (>2.5), it indicates your thyroid is struggling.',
     highlightNode: 'tsh',
     highlightPath: null,
-    position: { x: 200, y: 300 },
+    nodeIndex: 0, // First thyroid node
   },
   {
     title: 'TSH Impairs Progesterone',
     description:
       'Elevated TSH directly interferes with corpus luteum function, reducing progesterone production after ovulation.',
-    highlightPath: ['tsh', 'progesterone'],
+    highlightPath: ['tsh', 'progesterone_production'],
     highlightNode: null,
-    position: { x: 400, y: 350 },
+    nodeIndex: 7, // Progesterone Production (intermediate category)
   },
   {
     title: 'Low Progesterone = Short Luteal Phase',
     description:
       'Without adequate progesterone, the luteal phase becomes too short (<10 days), making it difficult for embryos to implant.',
-    highlightPath: ['progesterone', 'luteal_phase_length'],
+    highlightPath: ['progesterone_production', 'luteal_phase_length'],
     highlightNode: null,
-    position: { x: 700, y: 400 },
+    nodeIndex: 15, // Luteal Phase Length (reproductive category)
   },
   {
     title: 'Temperature Regulation',
     description:
       'Thyroid hormones regulate basal body temperature. Hypothyroidism causes lower temps, making BBT charting less reliable.',
-    highlightPath: ['free_t3', 'basal_temp', 'bbt_pattern'],
+    highlightPath: ['free_t3', 'basal_body_temp', 'bbt_pattern'],
     highlightNode: null,
-    position: { x: 600, y: 200 },
+    nodeIndex: 6, // Body Temperature
   },
   {
     title: 'The Autoimmune Factor',
@@ -60,7 +60,7 @@ const tourSteps: TourStep[] = [
       'immune_activation',
       'pregnancy_loss_risk',
     ],
-    position: { x: 300, y: 500 },
+    nodeIndex: 3, // TPO Antibodies
   },
   {
     title: 'Multiple Pathways Converge',
@@ -68,29 +68,65 @@ const tourSteps: TourStep[] = [
       'Notice how thyroid dysfunction affects reproduction through many simultaneous pathways—metabolism, hormones, immune system, and more.',
     highlightPath: null,
     highlightNode: null,
-    position: { x: 600, y: 100 },
   },
   {
     title: 'Why Comprehensive Testing Matters',
     description:
-      "Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture. Doctors won't always test these values, so it can be important to see a physician who prioritizes functional / integrative medicine.",
+      'Standard care tests only TSH. But you need Free T3, Free T4, and antibodies to see the full picture.',
     highlightPath: null,
     highlightNode: null,
-    position: { x: 400, y: 150 },
   },
 ];
 
 interface Props {
   onHighlight: (nodeId: string | null, path: string[] | null) => void;
+  svgRef: React.RefObject<SVGSVGElement | null>;
+  nodes: SimulationNode[];
 }
 
-export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
+export const GuidedTour: React.FC<Props> = ({ onHighlight, svgRef }) => {
   const [isActive, setIsActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
+  const [positions, setPositions] = useState<{ x: number; y: number }[]>([]);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Calculate positions based on actual DOM elements
+  const calculatePositions = useCallback(() => {
+    if (!svgRef.current) return;
+
+    const svg = svgRef.current;
+
+    const nodeGroups = svg.querySelectorAll('.node');
+    const newPositions = Array.from(nodeGroups).map((nodeGroup) => {
+      const rect = nodeGroup.getBoundingClientRect();
+      return {
+        x: rect.right + 20,
+        y: rect.top + window.scrollY - 50,
+      };
+    });
+
+    setPositions(newPositions);
+  }, [svgRef]);
+
+  // Recalculate on mount and window resize
+  useEffect(() => {
+    calculatePositions();
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth); // ADD THIS
+      if (isActive) {
+        calculatePositions();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [calculatePositions, isActive]);
 
   const startTour = () => {
     setIsActive(true);
     setCurrentStep(0);
+    calculatePositions(); // Recalculate when tour starts
     applyStep(0);
   };
 
@@ -124,12 +160,26 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
 
   const step = tourSteps[currentStep];
 
+  // Get position for current step
+  const getStepPosition = () => {
+    if (step.nodeIndex !== undefined && positions[step.nodeIndex]) {
+      return positions[step.nodeIndex];
+    }
+    // Default position for intro/outro steps
+    return { x: window.innerWidth / 2 - 200, y: 150 };
+  };
+
+  const position = getStepPosition();
+
+  // Only show tour button if window is wide enough
+  const isTourAvailable = windowWidth >= 822;
+
   return (
     <>
-      {!isActive && (
+      {!isActive && isTourAvailable && (
         <button
           onClick={startTour}
-          className='fixed top-4 right-4 px-6 py-3 bg-[#4d787ecc] text-white rounded-lg font-medium hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
+          className='fixed top-4 right-4 px-6 py-3 bg-[#6298a0cc] text-white rounded-lg font-medium hover:bg-[#5a8a91] transition-colors shadow-lg z-50'
         >
           Let's Take a Tour
         </button>
@@ -148,33 +198,34 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
 
             {/* Tour Card */}
             <motion.div
+              key={currentStep} // Re-animate on step change
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               style={{
-                position: 'relative',
-                left: step.position.x,
-                top: step.position.y,
+                position: 'absolute',
+                left: position.x,
+                top: position.y,
                 zIndex: 50,
               }}
               className='bg-white rounded-lg shadow-2xl p-6 max-w-md'
             >
               <div className='flex items-start justify-between mb-3'>
-                <h3 className='text-xl font-bold text-[#6298a0cc]'>
+                <h3 className='text-xl font-bold text-gray-900'>
                   {step.title}
                 </h3>
                 <button
                   onClick={endTour}
-                  className='text-gray-400 font-semibold hover:text-[#6cbfc0]'
+                  className='text-gray-400 hover:text-gray-600'
                 >
                   ✕
                 </button>
               </div>
 
-              <p className='text-[#6cbfc0] mb-6'>{step.description}</p>
+              <p className='text-gray-700 mb-6'>{step.description}</p>
 
               <div className='flex items-center justify-between'>
-                <span className='text-sm text-[#6298a0cc]'>
+                <span className='text-sm text-gray-500'>
                   Step {currentStep + 1} of {tourSteps.length}
                 </span>
 
@@ -182,14 +233,14 @@ export const GuidedTour: React.FC<Props> = ({ onHighlight }) => {
                   {currentStep > 0 && (
                     <button
                       onClick={prevStep}
-                      className='px-4 py-2 bg-[#4d787ecc] text-white rounded hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
+                      className='px-4 py-2 text-gray-700 hover:bg-gray-100 rounded transition-colors'
                     >
                       Previous
                     </button>
                   )}
                   <button
                     onClick={nextStep}
-                    className='px-4 py-2 bg-[#4d787ecc] text-white rounded hover:bg-[#ffd89bcc] hover:text-[#8e9047] transition-colors shadow-lg'
+                    className='px-4 py-2 bg-[#6298a0cc] text-white rounded hover:bg-[#5a8a91] transition-colors'
                   >
                     {currentStep === tourSteps.length - 1 ? 'Finish' : 'Next'}
                   </button>
