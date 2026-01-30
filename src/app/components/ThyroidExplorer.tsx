@@ -200,7 +200,7 @@ export const ThyroidExplorer: React.FC = () => {
                 </div>
 
                 {/* Two Column Layout for Impacts & Notes */}
-                <div style={{ display: 'flex' }}>
+                <div style={{ display: 'flex', gap: '12px' }}>
                   <div
                     className='p-3 bg-[#edf6f6cc] rounded'
                     style={{
@@ -208,7 +208,7 @@ export const ThyroidExplorer: React.FC = () => {
                       flexDirection: 'column',
                       justifyItems: 'flex-start',
                       alignItems: 'flex-start',
-                      flexGrow: '2',
+                      flex: '1',
                     }}
                   >
                     <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
@@ -236,6 +236,7 @@ export const ThyroidExplorer: React.FC = () => {
                       flexDirection: 'column',
                       justifyItems: 'flex-start',
                       alignItems: 'start',
+                      flex: '1',
                     }}
                   >
                     <h3 className='font-semibold text-[#6298a0cc] mb-2 text-sm'>
