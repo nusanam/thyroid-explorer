@@ -44,8 +44,8 @@ export const NetworkVisualization: React.FC<Props> = ({
   const svgRef = useRef<SVGSVGElement>(null);
 
   const layout = useMemo(() => {
-    return calculateVerticalArcLayout(nodes, height);
-  }, [nodes, height]);
+    return calculateVerticalArcLayout(nodes);
+  }, [nodes]);
 
   const isLinkInPath = useCallback(
     (link: SimulationLink): boolean => {

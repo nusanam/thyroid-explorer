@@ -256,7 +256,7 @@ export const ThyroidExplorer: React.FC = () => {
                 hoveredNode={hoveredNode}
                 onNodeClick={handleNodeClick}
                 onNodeHover={handleNodeHover}
-                height={1200}
+                height={600}
                 width={width}
                 isMobile={isMobile}
               />

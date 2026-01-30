@@ -131,30 +131,30 @@ export const getSimulationNodeRadius = (
   isSelected?: boolean,
   isMobile?: boolean
 ): number => {
-  let baseRadius = 15; // Reduced from 30
+  let baseRadius = 10;
 
   // Rest of your logic, but with smaller base sizes
   if (node.category === 'thyroid' && severity) {
     baseRadius = {
-      normal: 15,
-      subclinical: 18,
-      overt: 21,
+      normal: 10,
+      subclinical: 15,
+      overt: 20,
     }[severity];
   }
 
   // Reproductive outcome nodes are slightly larger for emphasis
   if (node.category === 'reproductive') {
-    baseRadius = 15;
+    baseRadius = 10;
   }
 
   // Selected nodes are larger
   if (isSelected) {
-    baseRadius *= 1.3;
+    baseRadius *= 1.25;
   }
 
   // Increase size for mobile (better touch targets)
   if (isMobile) {
-    baseRadius *= 1.2;
+    baseRadius *= 1.4;
   }
 
   return baseRadius;

@@ -2,27 +2,23 @@ import type { SimulationNode } from '../data/types';
 
 export const calculateVerticalArcLayout = (
   nodes: SimulationNode[],
-  height: number,
 ): Record<string, { x: number; y: number }> => {
   const layout: Record<string, { x: number; y: number }> = {};
 
-  // Sort nodes by category to maintain flow
   const sortedNodes = [
     ...nodes.filter((n) => n.category === 'thyroid'),
     ...nodes.filter((n) => n.category === 'intermediate'),
     ...nodes.filter((n) => n.category === 'reproductive'),
   ];
 
-  // All nodes on a vertical line on the left
-  const x = 200; // Left margin with space for labels
-  const padding = 60;
-  const availableHeight = height - padding * 2;
-  const spacing = availableHeight / (sortedNodes.length - 1);
+  const x = 200;
+  const marginTop = 40;
+  const step = 25; // Fixed spacing between nodes (Observable uses 14)
 
   sortedNodes.forEach((node, i) => {
     layout[node.id] = {
       x: x,
-      y: padding + i * spacing,
+      y: marginTop + i * step, // Fixed step instead of proportional
     };
   });
 
